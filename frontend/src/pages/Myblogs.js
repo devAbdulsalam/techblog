@@ -13,7 +13,7 @@ const Myblogs = () => {
       setAlert("user not available")
       return
     }
-    axios.get("http://localhost:4000/blogs",
+    axios.get("https://api-techstuff.onrender.com/blogs",
       { headers: { 'Authorization': `Bearer ${user.token}` } }
     )
       .then((res) => {
@@ -30,24 +30,26 @@ const Myblogs = () => {
 
 
   return (
-    <header className="min-h-[750px] md:h-screen flex py-10  flex-col items-center">
-      <div className='w-full mt-10 py-3 pl-8'>
-        <h1 className="text-3xl font-bold  text-red-800 text-center">
+    <section className="min-h-screen md:h-screen flex flex-col items-center">
+      <div className='w-full mt-5 py-3 pl-8 relative flex justify-center'>
+        <h1 className="text-3xl font-bold  text-red-800 text-center fixed bg-gray-800 mx-auto z-10">
           My Posts
         </h1>
       </div>
-      {loading ?
-        <div>
-          <p className='text-center text-blue-500 text-2xl'>Loading</p>
-        </div> :
-        <div className="w-full">
-          {!blogs.length <= 0 ? blogs.map((blog) => (<Blog key={blog._id} blog={blog} />))
-            :
-            <p className='text-center text-red-500 text-2xl'>{alert}</p>
-          }
-        </div>
-      }
-    </header>
+      <div className='w-full h-screen overflow-y-auto relative'>
+        {loading ?
+          <div>
+            <p className='text-center text-blue-500 text-2xl'>Loading</p>
+          </div> :
+          <div className="w-full">
+            {!blogs.length <= 0 ? blogs.map((blog) => (<Blog key={blog._id} blog={blog} />))
+              :
+              <p className='text-center text-red-500 text-2xl'>{alert}</p>
+            }
+          </div>
+        }
+      </div>
+    </section>
   )
 }
 

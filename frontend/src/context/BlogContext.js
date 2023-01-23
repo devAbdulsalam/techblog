@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useContext, useReducer } from 'react'
+import React, { useEffect, createContext, useContext, useReducer, useState } from 'react'
 import { LoadingContext } from './LoadingContext';
 import axios from 'axios';
 
@@ -45,19 +45,19 @@ const BlogProvider = ({ children }) => {
     blogs: null
   })
 
+  const [isError, setIsError] = useState(false)
   // fetch  Blogs
   useEffect(() => {
     setIsLoading(true)
     const fetchBlogs = async () => {
-      axios.get("http://localhost:4000/blogs/allblogs")
+      axios.get("https://api-techstuff.onrender.com/blogs/allblogs")
         .then((res) => {
           dispatch({ type: 'GET_BLOGS', payload: res.data })
-          console.log(res)
           setIsLoading(false)
         })
         .catch((err) => {
+          setIsError(err.message)
           console.log(err.message)
-          console.log(err)
           setIsLoading(false)
         })
     }
@@ -75,7 +75,7 @@ const BlogProvider = ({ children }) => {
   // }
 
   return (
-    < BlogContext.Provider value={{ ...state, dispatch }}>
+    < BlogContext.Provider value={{ ...state, dispatch, isError }}>
       {children}
     </ BlogContext.Provider>
   );

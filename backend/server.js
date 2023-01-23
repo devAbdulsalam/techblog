@@ -11,7 +11,7 @@ const userRoutes = require('./routes/user')
 const app = express();
 app.use(
     cors({
-        origin: ["http://localhost:3000", "https://shara.onrender.com"],
+        origin: ["http://localhost:3000", "http://localhost:4000", "https://techstuf.vercel.app"],
         credentials: true,
     })
 );
@@ -30,6 +30,13 @@ mongoose.connect(process.env.MDB_URL, {
         })
     })
     .catch((err) => console.log(err));
+
+app.use(express.static('public'))
+app.use("/uploads", express.static('./uploads'))
+
+app.get("/", (req, res) => {
+    res.sendFile('./views/index.html', { root: __dirname });
+});
 
 // // blogs routes
 app.use("/blogs", blogRoutes)

@@ -1,24 +1,20 @@
 const  mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const walletSchema = new Schema({
+const CommentSchema = new Schema({
     userId:{
         type : String,
         require: true
     },
-    phone:{
+    postID:{
         type : String,
         require: true
     },
-    balance:{
-        type : Number,
-        require: true
-    },
-    transfer_pin:{
+    comment:{
         type : String,
         require: true
-    },
+    }
 }, {timestamps : true});
 
-const Wallet = mongoose.model('Wallet', walletSchema);
-module.exports = Wallet;
+const Comment = mongoose.model('Comment', CommentSchema);
+module.exports = Comment;

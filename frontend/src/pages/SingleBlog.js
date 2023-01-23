@@ -21,7 +21,7 @@ const SingleBlog = () => {
 
     useEffect(() => {
         setIsLoading(true)
-        axios.get(`http://localhost:4000/blogs/${id}`)
+        axios.get(`https://api-techstuff.onrender.com/blogs/${id}`)
             .then((res) => {
                 setIsLoading(false)
                 setBlog(res.data)
@@ -38,7 +38,7 @@ const SingleBlog = () => {
             return
         }
         setIsLoading(true)
-        axios.delete(`http://localhost:4000/blogs/${id}`, { headers: { 'Authorization': `Bearer ${user.token}` } })
+        axios.delete(`https://api-techstuff.onrender.com/blogs/${id}`, { headers: { 'Authorization': `Bearer ${user.token}` } })
             .then((res) => {
                 console.log(res.data)
                 setIsLoading(false)

@@ -26,6 +26,10 @@ const blogSchema = new Schema({
         type : String,
         require: true
     },
+    likes:{
+        type : Number,
+        require: true
+    },
 }, {timestamps : true});
 
 const Blog = mongoose.model('Blog', blogSchema);

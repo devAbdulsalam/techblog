@@ -1,37 +1,55 @@
 import { useState, useContext } from 'react'
 import { useAuthContext } from '../context/useAuthContext'
-import { LoadingContext } from '../context/LoadingContext';
+import { useLocation, useNavigate } from "react-router-dom";
+import { LoadingContext } from '../context/LoadingContext'
+import axios from "axios";
+
 
 export const useSignup = () => {
-  const [error, setError] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [error, setError] = useState(null);
   const { setIsLoading } = useContext(LoadingContext);
   const { dispatch } = useAuthContext()
+  const redirectPath = location.state?.path || "/"
 
   const signup = async (user) => {
+    if (user.phone === "" || user.name === "" || user.password === "") {
+      setError('Fill all input field')
+      setTimeout(() => {
+        setError(null)
+      }, 2000);
+      return
+    } else if (user.password !== user.cpassword) {
+      console.log(user.password, user.cpassword)
+      setError("passwords does not match")
+      setTimeout(() => {
+        setError(null)
+      }, 2000);
+      return
+    }
     setIsLoading(true)
     setError(null)
 
-    const response = await fetch('http://localhost:4000/user/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user)
-    })
-    const json = await response.json()
+    axios.post('https://api-techstuff.onrender.com/user/signup', user)
+      .then(res => res.data)
+      .then(data => {
+        console.log(data.message)
+        navigate(redirectPath, { replace: true })
 
-    if (!response.ok) {
-      dispatch({ type: 'SIGNUP_FAILED', payload: json.error, loading: false, })
-      console.log(json.error)
-    }
-    if (response.ok) {
-      // save the user to local storage
-      localStorage.setItem('techstuff', JSON.stringify(json))
+        setIsLoading(false) // save the user to local storage
+        // // // localStorage.setItem('sharauser', JSON.stringify(data.user))
+        console.log(data.message)
+        console.log(data)
+        localStorage.setItem('techstuff', JSON.stringify(data))
+        dispatch({ type: 'LOGIN', payload: data })
 
-      // update the auth context
-      dispatch({ type: 'LOGIN', payload: json, loading: false, })
-
-      // update loading state
-      setIsLoading(false)
-    }
+        // update loading state
+        setIsLoading(false)
+      }).catch(error => {
+        setError(error ? error.response?.data.error || error.message : error)
+        setIsLoading(false)
+      })
   }
 
   return { signup, error }

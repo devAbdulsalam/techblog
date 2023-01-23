@@ -1,42 +1,50 @@
-import { useState, useContext} from 'react'
-import { useNavigate} from 'react-router-dom'
+import { useState, useContext } from 'react'
 import { useAuthContext } from '../context/useAuthContext'
-import { LoadingContext } from '../context/LoadingContext';
+import { useLocation, useNavigate } from "react-router-dom";
+import { LoadingContext } from '../context/LoadingContext'
+import axios from "axios";
 
 
 export const useLogin = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [error, setError] = useState(null);
-  const { setIsLoading} = useContext(LoadingContext);
+  const { setIsLoading } = useContext(LoadingContext);
   const { dispatch } = useAuthContext()
+  const redirectPath = location.state?.path || "/"
 
   const login = async (user) => {
+
+    if (user.phone === "" || user.password === "") {
+      setError("Fill in all input fields")
+      setTimeout(() => {
+        setError(null)
+      }, 2000);
+      return
+    }
     setIsLoading(true)
     setError(null)
 
-    const response = await fetch('/user/login', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(user)
-    })
-    const json = await response.json()
+    axios.post('https://api-techstuff.onrender.com/user/login', user)
+      .then(res => res.data)
+      .then(data => {
+        console.log(data.message)
+        navigate(redirectPath, { replace: true })
 
-    if (!response.ok) {
-      setIsLoading(false)
-      setError(json.error)
-    }
-    if (response.ok) {
-      // save the user to local storage
-      localStorage.setItem('techstuff', JSON.stringify(json))
+        setIsLoading(false) // save the user to local storage
+        // // // localStorage.setItem('sharauser', JSON.stringify(data.user))
+        console.log(data.message)
+        console.log(data)
+        localStorage.setItem('techstuff', JSON.stringify({data}))
+        dispatch({ type: 'LOGIN', payload: data})
 
-      // update the auth context
-      dispatch({type: 'LOGIN', payload: json})
-      //
-        navigate('/')
-      // update loading state
-      setIsLoading(false)
-    }
+        // update loading state
+        setIsLoading(false)
+      }).catch(error => {
+        setError(error ? error.response?.data.error || error.message : error)
+        setIsLoading(false)
+      })
   }
 
-  return { login, error }
+  return { login, error}
 }

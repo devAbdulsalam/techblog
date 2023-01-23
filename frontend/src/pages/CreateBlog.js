@@ -37,7 +37,7 @@ const CreateBlog = () => {
         } else {
             const blog = { user_id: user.user._id, title, subtitle, content, author, keywords }
             setIsLoading(true)
-            const response = await fetch(`http://localhost:4000/blogs`, {
+            const response = await fetch(`https://api-techstuff.onrender.com/blogs`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",

@@ -104,11 +104,62 @@ const singleBlog = async (req, res) => {
 
     res.status(200).json(blog)
 }
+// get a Save Draft Blog
+const saveDraft = async (req, res) => {
+    const {id} = req.params
+    
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    const blog = await Blog.findById(id)
+
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    res.status(200).json(blog)
+}
+// get a single blog
+const likeBlog = async (req, res) => {
+    const {id} = req.params
+    
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    const blog = await Blog.findById(id)
+
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    res.status(200).json(blog)
+}
+// get a single blog
+const CommentsOnBlog = async (req, res) => {
+    const {id} = req.params
+    
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    const blog = await Blog.findById(id)
+
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    res.status(200).json(blog)
+}
 module.exports = {
     getAllBlog,
     myBlog, 
     singleBlog,
     createBlog, 
     deleteBlog, 
-    updateBlog
+    updateBlog,
+    saveDraft, 
+    likeBlog, 
+    CommentsOnBlog,
 }

@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "http-proxy-middleware": "^2.0.6"
+    "axios": "^1.2.3",
+    "http-proxy-middleware": "^2.0.6",
+    "react-loading-skeleton": "^3.1.0",
+    "react-toastify": "^9.1.1"
   }
 }
