@@ -11,6 +11,7 @@ const LeftBar = () => {
             <div className='p-2'>
                 <h1 className='text-2xl font-semibold text-center'>Tech Stuff</h1>
                 <p>lorem lorem lorem lorem</p>
+                <p>lorem lorem lorem lorem</p>
             </div>
             {!user ?
                 <ul className="flex items-center flex-col gap-1 py-2 lg:font-semibold lg:text-lg">
