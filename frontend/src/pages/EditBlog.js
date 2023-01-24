@@ -3,6 +3,7 @@ import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
 import { EditContext } from '../context/EditContext'
 import { useBlogsContext } from '../context/useBlogContext'
+import Loading from '../components/Loading'
 // import axios from 'axios'
 
 const EditBlog = ({ blog }) => {
@@ -37,6 +38,7 @@ const EditBlog = ({ blog }) => {
             if (!response.ok) {
                 console.log(json)
                 setIsLoading(false)
+                window.location.reload()
             }
             if (response.ok) {
                 setTitle('')
@@ -51,6 +53,7 @@ const EditBlog = ({ blog }) => {
     }
     return (
         <section className={`${isEdit ? 'flex' : 'hidden'} h-screen w-full absolute bg-black/5 z-[997] transition-all duration-300  place-items-center`}>
+            <Loading/>
             <div className='w-full flex place-content-center p-2 md:p-10'>
                 <div className='bg-gray p-2 mt-10 rounded-md shadow-xl bg-white'>
                     <i onClick={() => setIsEdit(false)} className="close fa fa-times text-gray-700 text-2xl float-right cursor-pointer mr-5"></i>

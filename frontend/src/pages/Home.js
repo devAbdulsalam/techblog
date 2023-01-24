@@ -5,6 +5,7 @@ import { LoadingContext } from '../context/LoadingContext'
 // import 'react-loading-skeleton/dist/skeleton.css'
 // components
 import Blog from '../components/Blog'
+import Loading from '../components/Loading'
 
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
   // const [searchInput, setSearchInput] = useState('')
   return (
     <section id="home" className="min-h-screen flex pb-2 md:pb-1 flex-col items-center">
+      <Loading />
       <div className='w-full'>
         {isLoading ?
           <div className='w-full'>

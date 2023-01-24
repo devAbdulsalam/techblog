@@ -3,6 +3,7 @@ import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
 import { useBlogsContext } from '../context/useBlogContext'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../components/Loading'
 
 const CreateBlog = () => {
     const navigate = useNavigate()
@@ -70,6 +71,7 @@ const CreateBlog = () => {
     }
     return (
         <section className='md:after:min-h-screen w-full bg-white'>
+            <Loading />
             <h1 className="text-xl font-bold pt-1 px-2">Create post</h1>
             <div className='w-full flex flex-col place-content-center'>
                 <div className='hidden'>

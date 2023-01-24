@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAuthContext } from '../context/useAuthContext'
 import axios from 'axios'
 import Blog from '../components/Blog'
+import Loading from '../components/Loading'
 
 const Myblogs = () => {
   const { user } = useAuthContext()
@@ -31,8 +32,9 @@ const Myblogs = () => {
 
   return (
     <section className="min-h-screen md:h-screen flex flex-col items-center">
-      <div className='w-full mt-5 py-3 pl-8 relative flex justify-center'>
-        <h1 className="text-3xl font-bold  text-red-800 text-center fixed bg-gray-800 mx-auto z-10">
+      <Loading />
+      <div className='w-full mt-3 py-3 pl-8 relative flex justify-center'>
+        <h1 className="text-3xl font-bold  text-white text-center fixed bg-gray-800 mx-auto z-10">
           My Posts
         </h1>
       </div>

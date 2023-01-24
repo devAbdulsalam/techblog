@@ -9,6 +9,7 @@ import userImg from '../assests/avatar-05.png'
 // date-fms
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import axios from 'axios'
+import Loading from '../components/Loading'
 
 const SingleBlog = () => {
     const { id } = useParams()
@@ -104,7 +105,7 @@ const SingleBlog = () => {
                         </div>
                     }
                 </div>
-            </div> : ''
+            </div> : <Loading/>
             }
             {
                 error ?
