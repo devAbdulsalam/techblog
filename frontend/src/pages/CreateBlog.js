@@ -127,9 +127,11 @@ const CreateBlog = () => {
                             />
                         </div>
                     </div>
-                    <div className='w-full bg-gray-100 p-4 flex'>
-                        <p>options</p>
-                        <p>add image</p>
+                    <div className='w-full bg-gray-100 p-1 flex'>
+                        <p><ion-icon name="key-outline" size="large"
+                            className="m-2"></ion-icon></p>
+                        <p><ion-icon name="image-outline" size="large"
+                            className="m-2"></ion-icon></p>
                     </div>
                     <div className="row">
                         <textarea

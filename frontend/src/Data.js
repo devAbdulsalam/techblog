@@ -16,6 +16,10 @@ export const menuLinks = [
   { name: "FQAs", link: "./", icon: "flashlight-outline" },
   { name: "Sponsor", link: "./", icon: "heart-outline" },
   { name: "About", link: "./", icon: "information-circle-outline" },
+  { name: "FQAs", link: "./", icon: "flashlight-outline" },
+  { name: "Sponsor", link: "./", icon: "heart-outline" },
+  { name: "About", link: "./", icon: "information-circle-outline" },
+  { name: "About", link: "./", icon: "information-circle-outline" },
 ];
 
 // 

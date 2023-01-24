@@ -16,7 +16,7 @@ const Home = () => {
   // const [searchInput, setSearchInput] = useState('')
   return (
     <section id="home" className="min-h-screen flex pb-2 md:pb-1 flex-col items-center">
-      <div className='w-full md:h-screen overflow-y-auto'>
+      <div className='w-full'>
         {isLoading ?
           <div className='w-full'>
             {/* <Skeleton baseColor="#2d3748" highlightColor="#718096" width={`w-full`} height={`full`} count={5} /> */}

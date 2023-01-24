@@ -6,7 +6,7 @@ import { useAuthContext } from '../context/useAuthContext'
 const RightBar = () => {
     const { user } = useAuthContext()
     return (
-        <div className='hidden w-[20%] h-full bg-white lg:inline-block shadow-md mt-10 rounded'>
+        <div className='hidden w-full bg-white lg:inline-block shadow-md rounded'>
             <div className='rounded p-2 shadow-md'>
                 <div className='flex justify-center'>
                     <img src={user?.user?.user?.pic || userImg} className="w-20 h-20 rounded-full" alt='userimage' />

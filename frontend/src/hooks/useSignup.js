@@ -37,20 +37,48 @@ export const useSignup = () => {
         console.log(data.message)
         navigate(redirectPath, { replace: true })
 
-        setIsLoading(false) // save the user to local storage
-        // // // localStorage.setItem('sharauser', JSON.stringify(data.user))
-        console.log(data.message)
-        console.log(data)
+        setIsLoading(false)
+        // save the user to local storage
         localStorage.setItem('techstuff', JSON.stringify(data))
         dispatch({ type: 'LOGIN', payload: data })
 
         // update loading state
         setIsLoading(false)
       }).catch(error => {
-        setError(error ? error.response?.data.error || error.message : error)
-        setIsLoading(false)
-      })
+          setError(error ? error.response?.data.error || error.message : error)
+          setIsLoading(false)
+        })
   }
 
   return { signup, error }
 }
+
+
+
+// axios.get('/user')
+//   .then(response => {
+//     // Get the current time in milliseconds
+//     let currentTime = new Date().getTime();
+//     // Set the expiration time to be 1 hour from now
+//     let expirationTime = currentTime + (60 * 60 * 1000);
+//     // Store the user data and expiration time in session storage
+//     sessionStorage.setItem('userData', JSON.stringify(response.data));
+//     sessionStorage.setItem('expirationTime', expirationTime);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+
+
+// // Get the expiration time from session storage
+// let expirationTime = sessionStorage.getItem('expirationTime');
+// // Get the current time in milliseconds
+// let currentTime = new Date().getTime();
+
+// if (expirationTime && currentTime < expirationTime) {
+//   // The user data is still valid, so you can use it
+//   let userData = JSON.parse(sessionStorage.getItem('userData'));
+//   // Do something with the user data
+// } else {
+//   // The user data has expired, so you should refresh it
+// }

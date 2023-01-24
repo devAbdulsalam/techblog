@@ -28,15 +28,16 @@ export const useLogin = () => {
     axios.post('https://api-techstuff.onrender.com/user/login', user)
       .then(res => res.data)
       .then(data => {
-        console.log(data.message)
-        navigate(redirectPath, { replace: true })
 
-        setIsLoading(false) // save the user to local storage
-        // // // localStorage.setItem('sharauser', JSON.stringify(data.user))
-        console.log(data.message)
         console.log(data)
-        localStorage.setItem('techstuff', JSON.stringify({data}))
-        dispatch({ type: 'LOGIN', payload: data})
+        // save the user to local storage
+        if (data) {
+          window.localStorage.setItem("techstuff", JSON.stringify(data));
+        }
+        dispatch({ type: 'LOGIN', payload: data })
+
+        navigate(redirectPath, { replace: true })
+        setIsLoading(false)
 
         // update loading state
         setIsLoading(false)
@@ -46,5 +47,5 @@ export const useLogin = () => {
       })
   }
 
-  return { login, error}
+  return { login, error }
 }

@@ -1,14 +1,18 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSignup } from '../hooks/useSignup'
 import { LoadingContext } from '../context/LoadingContext'
+import Loading from '../components/Loading'
 
 const Signup = () => {
     const navigate = useNavigate();
     const { signup, error, isLoading } = useSignup();
 
     const { setIsLoading } = useContext(LoadingContext);
-    setIsLoading(false)
+    useEffect(() => {
+        setIsLoading(false)
+
+    }, [setIsLoading])
     // // signUp
     const [name, setName] = useState('');
     const [phone, setPhoneNumber] = useState('');
@@ -25,6 +29,7 @@ const Signup = () => {
     };
     return (
         <section className='w-full bg-gray-200 py-8  relative'>
+            <Loading />
             <div className='w-full flex place-items-center '>
                 <form onSubmit={handleSignUp} className="w-full md:max-w-[450px] mx-auto md:my-6 shadow-lg bg-gray-50 rounded-md flex flex-col p-4">
                     <h1 className="text-center text-xl md:text-2xl font-bold py-3">Create Account</h1>
@@ -77,6 +82,7 @@ const Signup = () => {
                             placeholder="Uni9ue&$tr0ng"
                             id="password"
                             name="password"
+                            autoComplete="new-password"
                         />
                     </div>
                     <div className="my-1">
@@ -89,6 +95,7 @@ const Signup = () => {
                             name="cpswd"
                             id="cpswd"
                             placeholder="Uni9ue&$tr0ng"
+                            autoComplete="new-password"
                         />
                     </div>
                     <div>

@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLogin } from '../hooks/useLogin';
 import { LoadingContext } from '../context/LoadingContext';
+import Loading from "../components/Loading"
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -10,12 +12,12 @@ const Login = () => {
 
     useEffect(() => {
         setIsLoading(false)
-    }, [])
+    }, [setIsLoading])
     // // login
     const [phone, setphone] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         const user = { phone, password }
         login(user)
@@ -23,6 +25,7 @@ const Login = () => {
 
     return (
         <section className='md:h-screen bg-gray-200 w-full py-10'>
+            <Loading />
             <div className='w-full flex place-items-center p-5 md:p-10'>
                 <form onSubmit={handleLogin} className="w-full md:max-w-[450px] mx-auto md:mt-10 shadow-lg bg-gray-50 rounded-md flex flex-col p-4">
                     <h1 className="text-center text-xl md:text-2xl font-bold py-3">Login</h1>
