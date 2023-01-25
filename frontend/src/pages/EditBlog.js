@@ -1,21 +1,43 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
 import { EditContext } from '../context/EditContext'
 import { useBlogsContext } from '../context/useBlogContext'
 import Loading from '../components/Loading'
-// import axios from 'axios'
+import axios from 'axios'
 
-const EditBlog = ({ blog }) => {
-    const { title: blogTittle, content: blogContent, subtitle: subTitle, _id: id } = blog
+const EditBlog = () => {
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const [blog, setBlog] = useState(null)
+    const [error, setError] = useState(false)
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        axios.get(`https://api-techstuff.onrender.com/blogs/${id}`)
+            .then((res) => {
+                setIsLoading(false)
+                setBlog(res.data)
+            })
+            .catch((err) => {
+                setError(err.message)
+                console.log(err.message)
+            })
+    }, [id, setIsLoading])
+
+
+    const { title: blogTittle, content: blogContent, subtitle: subTitle, } = blog
     const { user } = useAuthContext()
-    const { setIsLoading } = useContext(LoadingContext);
     const { dispatch } = useBlogsContext()
     const { isEdit, setIsEdit } = useContext(EditContext);
     const [title, setTitle] = useState(blogTittle)
     const [subtitle, setSubtitle] = useState(subTitle)
     const [content, setContent] = useState(blogContent)
     const [warning, setWarning] = useState(null)
+
 
     // //update blog
     const handleSubmit = async (e) => {
@@ -53,10 +75,10 @@ const EditBlog = ({ blog }) => {
     }
     return (
         <section className={`${isEdit ? 'flex' : 'hidden'} h-screen w-full absolute bg-black/5 z-[997] transition-all duration-300  place-items-center`}>
-            <Loading/>
-            <div className='w-full flex place-content-center p-2 md:p-10'>
+
+            {!isLoading ? <div className='w-full flex place-content-center p-2 md:p-10'>
                 <div className='bg-gray p-2 mt-10 rounded-md shadow-xl bg-white'>
-                    <i onClick={() => setIsEdit(false)} className="close fa fa-times text-gray-700 text-2xl float-right cursor-pointer mr-5"></i>
+                    <i onClick={() => navigate('/')} className="close fa fa-times text-gray-700 text-2xl float-right cursor-pointer mr-5"></i>
                     <form onSubmit={handleSubmit} className="pb-10 p-2 mx-1">
                         <h1 className="text-center text-4xl font-bold py-5">Edit Blog post</h1>
                         <div className="row">
@@ -107,7 +129,14 @@ const EditBlog = ({ blog }) => {
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> : <Loading />}
+            {
+                error ?
+                    <div className='w-full mt-10 pt-10 p-2 md:w-11/12 mx-auto'>
+                        <p className='text-center text-red-500 text-2xl'>{error}</p>
+                    </div>
+                    : ""
+            }
         </section>
     )
 }

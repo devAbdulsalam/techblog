@@ -24,9 +24,9 @@ const Login = () => {
     };
 
     return (
-        <section className='md:h-screen bg-gray-200 w-full py-10'>
+        <section className='md:h-screen bg-gray-200 w-full py-10 relative'>
             <Loading />
-            <div className='w-full flex place-items-center p-5 md:p-10'>
+            <div className='w-full flex place-items-center '>
                 <form onSubmit={handleLogin} className="w-full md:max-w-[450px] mx-auto md:mt-10 shadow-lg bg-gray-50 rounded-md flex flex-col p-4">
                     <h1 className="text-center text-xl md:text-2xl font-bold py-3">Login</h1>
                     <div className="my-2">

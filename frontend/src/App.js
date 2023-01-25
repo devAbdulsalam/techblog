@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Myblogs from './pages/Myblogs'
 import SingleBlog from './pages/SingleBlog'
 import CreateBlog from './pages/CreateBlog'
+import EditBlog from './pages/EditBlog'
 // Login and Signin
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -21,6 +22,12 @@ function App() {
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route element={<ProtectedRoutes />}>
+
+          <Route
+            path="/edit-post/:id"
+            element={<EditBlog />}
+          >
+          </Route>
           <Route
             path="/:id"
             element={<SingleBlog />}

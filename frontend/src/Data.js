@@ -10,16 +10,14 @@ export const userLinks = [
 
 export const menuLinks = [
   { name: "Home", link: "./", icon: "home-outline" },
-  { name: "Latest", link: "./", icon: "home-outline" },
-  { name: "Relevant", link: "./", icon: "home-outline" },
+  { name: "Latest", link: "./", icon: "reload-circle-outline" },
+  { name: "Relevant", link: "./", icon: "newspaper-outline" },
   { name: "Guides", link: "./", icon: "book-outline" },
   { name: "FQAs", link: "./", icon: "flashlight-outline" },
-  { name: "Sponsor", link: "./", icon: "heart-outline" },
-  { name: "About", link: "./", icon: "information-circle-outline" },
   { name: "FQAs", link: "./", icon: "flashlight-outline" },
   { name: "Sponsor", link: "./", icon: "heart-outline" },
-  { name: "About", link: "./", icon: "information-circle-outline" },
-  { name: "About", link: "./", icon: "information-circle-outline" },
+  { name: "Sponsor", link: "./", icon: "heart-outline" },
+  { name: "About", link: "./", icon: "information-circle-outline" }
 ];
 
-// 
+// <ion-icon name=""></ion-icon>

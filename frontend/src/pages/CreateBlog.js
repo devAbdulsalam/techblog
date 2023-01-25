@@ -130,10 +130,11 @@ const CreateBlog = () => {
                         </div>
                     </div>
                     <div className='w-full bg-gray-100 p-1 flex'>
-                        <p><ion-icon name="key-outline" size="large"
+                        <p title="Add key words"><ion-icon name="key-outline" size="large"
                             className="m-2"></ion-icon></p>
-                        <p><ion-icon name="image-outline" size="large"
-                            className="m-2"></ion-icon></p>
+                        <p title="Add image"><ion-icon name="image-outline" size="large"
+                            className="m-2"></ion-icon></p>                         
+                        <button title="Add Co Author" onClick={() => addCoAuthor()} className='mx-2'><ion-icon size="large" name="person-add-outline"></ion-icon></button>
                     </div>
                     <div className="row">
                         <textarea
@@ -155,7 +156,6 @@ const CreateBlog = () => {
                     <div className='gap-1 px-1 space-x-2'>
                         <button type="submit" className="bg-[#228e01] w-full max-w-[200px] mx-auto inline-block text-white py-3 text-xl my-6 rounded font-bold">Publish</button>
                         <button onClick={() => SaveDraft()} className='mx-2'>Save draft</button>
-                        <button onClick={() => addCoAuthor()} className='mx-2'>Add co Author</button>
                     </div>
                 </form>
             </div>

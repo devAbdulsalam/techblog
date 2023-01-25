@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import EditBlog from './EditBlog'
 import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
-import { EditContext } from '../context/EditContext'
 
 import userImg from '../assests/avatar-05.png'
 // date-fms
@@ -17,7 +15,6 @@ const SingleBlog = () => {
     const { user } = useAuthContext()
     const [blog, setBlog] = useState(null)
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-    const { setIsEdit } = useContext(EditContext);
     const [error, setError] = useState(false)
 
     useEffect(() => {
@@ -51,10 +48,11 @@ const SingleBlog = () => {
             })
     }
     // //update blog
-    const handleEdit = () => {
-        setIsEdit(true)
+    // const handleEdit = () => {
+    //     console.log(blog?._id)
+    //     navigate()
 
-    }
+    // }
     // //update blog
     const handleRating = () => {
         console.log("star")
@@ -78,14 +76,14 @@ const SingleBlog = () => {
                     <h1 className="text-2xl pb-px font-bold">{blog?.title}</h1>
                     <h2 className='text-lg pb-1 capitalize font-semibold'>{blog?.subtitle}</h2>
                     <p className='text-lg p-2'>{blog?.content}</p>
-                    {user && blog?.user_id ?
+                    {user && blog?.user_id === user?.user?._id ?
                         <div className='pt-10 pb-2'>
                             <button onClick={() => navigate(-1)} className="p-2 bg-green-50 hover:bg-green-100 text-green-500 rounded-md mx-2">
                                 <ion-icon name="return-down-back-outline" size="large"></ion-icon>
                             </button>
-                            <button onClick={handleEdit} className="p-2 cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-md  mx-2">
+                            <Link to={`/edit-post/${blog?._id}`} className="p-2 cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-md  mx-2">
                                 <ion-icon name="create-outline" size="large"></ion-icon>
-                            </button>
+                            </Link>
                             <button onClick={handleDelete} className="p-2 bg-gray-50 hover:bg-red-100 text-red-500 rounded-md cursor-pointer mx-3">
                                 <ion-icon name="trash" size="large" ></ion-icon>
                             </button>
@@ -105,7 +103,7 @@ const SingleBlog = () => {
                         </div>
                     }
                 </div>
-            </div> : <Loading/>
+            </div> : <Loading />
             }
             {
                 error ?
@@ -114,7 +112,6 @@ const SingleBlog = () => {
                     </div>
                     : ""
             }
-            {blog ? <EditBlog blog={blog} /> : ''}
         </section >
     )
 }

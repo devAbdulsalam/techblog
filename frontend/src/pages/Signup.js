@@ -28,9 +28,9 @@ const Signup = () => {
         await signup(user)
     };
     return (
-        <section className='w-full bg-gray-200 py-8  relative'>
+        <section className='w-full bg-gray-200 py-8 '>
+            <div className='w-full flex place-items-center relative'>
             <Loading />
-            <div className='w-full flex place-items-center '>
                 <form onSubmit={handleSignUp} className="w-full md:max-w-[450px] mx-auto md:my-6 shadow-lg bg-gray-50 rounded-md flex flex-col p-4">
                     <h1 className="text-center text-xl md:text-2xl font-bold py-3">Create Account</h1>
                     <div className="my-1">
