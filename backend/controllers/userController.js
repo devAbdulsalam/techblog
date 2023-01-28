@@ -1,14 +1,20 @@
 const User = require('../models/userModel')
 const Blog = require('../models/blog')
 const jwt = require('jsonwebtoken')
+const nodemailer = require("nodemailer");
+const cloudinary = require('../utils/cloudinary')
 
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' })
 }
-const passwordToken = (email, _id) => {
-    const secret = _id + process.env.SECRET
-    return jwt.sign({ email, _id }, secret, { expiresIn: '5m' })
-}
+
+const transporter = nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:process.env.EMAIL,
+        pass:process.env.PASSWORD
+    }
+}) 
 
 // // login user
 const loginUser = async (req, res) => {
@@ -40,43 +46,114 @@ const signinUser = async (req, res) => {
     }
 }
 
-// // forget Password
-const forgetPassword = async (req, res) => {
-    const { email } = req.body
-    try {
-        const user = await User.fgtpswd(email)
-        // create a token
-        const token = passwordToken(user.email, user._id)
+// // user profile
+const updateProfile = async (req, res) => {
+  const {name, phone, email, address} = JSON.parse(req.body.user)
+  try {
+    const image = req.files.image
+      const fileName =  new Date().getTime().toString() + path.extname(image.name);
+      const savePath = path.join(__dirname, "public", "uploads", fileName);
+      await image.mv(savePath)
 
-        const link = `http://localhost:4000/reset-password/${user._id}/${token}`;
-
-        res.status(200).json({ link, token, message: "Password reset link sent" })
+      res.status(200).json({ message : "image upload Successfully"})
     } catch (error) {
-        res.status(404).json({ error: error.message })
+        res.status(404).json({error: error.message})
     }
 }
 
+// // forget Password
+const forgetPassword = async (req, res) => {
+    const {email} = req.body
+    try {
+        const user = await User.fgtpswd(email)
+        res.status(200).json(user)
+        } catch (error) {
+        res.status(404).json({error: error})
+    }
+}
+// const forgetPassword = async (req, res) => {
+//     const {email} = req.body
+//     try {
+//         const user = await User.fgtpswd(email)
+//         // create a token
+//         const token = createToken(user._id)
+//         const link = `http://localhost:3000/resetpassword/${user._id}/${token}`;
+
+//         const mailoption = {
+//             from: 'ammuftau74@gmail.com', // sender address
+//             to: email, // receivers address
+//             subject: "Email for Password Reset", // Subject line
+//             text: `This Link is valid for 2 Minutes ${link}`, // plain text body
+//             html: `<p>This Link is valid for 2 Minutes ${link}</p>`, 
+//         } 
+        
+//         transporter.sendMail(mailoption, (error, info) => {
+//             if(error){
+//                 // console.log(error, "error");
+//                 res.status(401).json({error: error, message: "Password reset link sent successfully"})
+//             }else{
+//                 // console.log(info.response, "success");
+//                 res.status(200).json({token, info, message: "Password reset link sent successfully"})
+//             }
+//         })
+//     } catch (error) {
+//         res.status(404).json({error: error})
+//     }
+// }
+
 // // reset Password
 const resetPassword = async (req, res) => {
-    const { id, token } = params
+    const {id, token} = req.params
     try {
-        const user = await User.resetpswd(id)
-        // // create a token
-        const secret = passwordToken(user.email, user._id)
-        // // verify the token
-        const verify = jwt.verify(token, secret);
-        if (!verify) {
-            res.status(401).json({ error: "verification failed" })
+        let user = await User.find({_id :id})
+
+        if (!user) {
+            throw Error('User does not  exist!!')
         }
-        res.status(200).json({ verify, token, message: "Password Reset Successfully" })
+        // // verify the token
+        const verify =  jwt.verify(token, process.env.SECRET)
+
+        if(!verify){
+           throw Error("verification failed")
+        }
+        res.status(200).json({user, verify, token, message : "Password Reset Successfully"})
+
     } catch (error) {
-        res.status(404).json({ error: error.message })
+        res.status(401).json({error : error, message : "Something went wrong"})
+    }
+}
+
+// // change Password
+const changePassword = async (req, res) => {
+    const {id, token, password, confirmPassword} = req.body
+    try {
+        // // verify the token
+        const verify =  jwt.verify(token, process.env.SECRET)
+        if(!verify){
+            return res.status(401).json({error: "verification failed"}) 
+        }
+        if(verify){
+
+            const newpassword = await User.changepsw(id, password, confirmPassword)
+            
+            let user = await User.findByIdAndUpdate({_id:id},{password:newpassword});
+            
+            user = await user.save()
+            res.status(200).json({user, message: "Password Changed Successfully"})
+
+        }else{
+            res.status(401).json({status:401, message:"user not exist"})
+        }
+    } catch (error) {
+        res.status(404).json({error: error.message})
     }
 }
 
 module.exports = {
     signinUser,
     loginUser,
+    updateProfile,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    changePassword,
 }

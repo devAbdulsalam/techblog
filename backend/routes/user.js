@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router()
-const { signinUser, loginUser, forgetPassword, resetPassword} = require('../controllers/userController')
+const { signinUser, loginUser, updateProfile, forgetPassword, resetPassword, changePassword} = require('../controllers/userController')
 
 // // get user
 router.post('/login', loginUser)
@@ -10,13 +10,16 @@ router.post('/login', loginUser)
 router.post('/signup', signinUser)
 
 // //forgetPassword
+router.post('/update', updateProfile)
+
+// //forgetPassword
 router.post('/forget-password', forgetPassword)
 
 // //resetPassword
 router.get('/reset-password/:id/:token', resetPassword)
 
 // //change Password
-router.post('/reset-password/:id/:token', resetPassword)
+router.post('/reset-password/:id/:token', changePassword)
 
 
 module.exports = router

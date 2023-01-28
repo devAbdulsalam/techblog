@@ -10,6 +10,8 @@ import EditBlog from './pages/EditBlog'
 // Login and Signin
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import ForgetPassword from './pages/ForgetPassword'
+import ResetPassword from './pages/ResetPassword'
 // component
 import Layout from './Layout';
 import ProtectedRoutes from './components/ProtectedRoutes';
@@ -57,6 +59,16 @@ function App() {
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to='/' />}
+        >
+        </Route>
+        <Route
+          path="/forget-password"
+          element={!user ? <ForgetPassword /> : <Navigate to='/' />}
+        >
+        </Route>
+        <Route
+          path="/change-password"
+          element={!user ? <ResetPassword /> : <Navigate to='/' />}
         >
         </Route>
       </Route>
