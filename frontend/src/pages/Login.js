@@ -62,7 +62,7 @@ const Login = () => {
                             <input className="mr-2 debug" type="checkbox" />
                             Remember me
                         </p>
-                        <p onClick={() => navigate('/forget-password')}>Forget Password</p>
+                        <p onClick={() => navigate('/forget-password')} className="text-green-600 cursor:pointer hover:text-green-400">Forget Password</p>
                     </div>
                     <div>
                         <p className="py-4 text-gray-600 text-lg md:text-xl">
