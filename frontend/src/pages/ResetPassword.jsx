@@ -27,20 +27,7 @@ const ResetPassword = () => {
   };
 
 
-  // // toggle login and signUp
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showLogin, setShowLogin ] = useState(true);
 
-  const handleSignUp = () =>{
-    setShowSignUp(true)
-    setShowLogin(false)
-    navigate('/signup')
-  }
-  const handleLogin = () =>{
-    setShowSignUp(false)
-    setShowLogin(true)
-    navigate('/login')
-  }
   const loginUser = () =>{
     const user = {phone, password}
     login(user)
@@ -50,7 +37,7 @@ const ResetPassword = () => {
   return (
     <div className="font-serif min-h-screen bg-green-50">
       <section className="p-5 py-8 w-full">
-            <div className="md:w-7/12 mb-0 mx-0 flex flex-col py-4 md:py-10 md:px-20 bg-white">
+            <div className="md:w-10/12 mb-0 mx-0 flex flex-col py-4 md:py-10 md:px-20 bg-white">
               <h2 className="text-green-500 text-2xl text-center font-bold">Change Password</h2>
               <form className="w-full m-0 flex flex-col py-4" onSubmit={handleSubmit}>
                 <div className='mt-2'>

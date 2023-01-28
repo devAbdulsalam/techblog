@@ -67,7 +67,7 @@ function App() {
         >
         </Route>
         <Route
-          path="/change-password"
+          path="/reset-password/:id/:token"
           element={!user ? <ResetPassword /> : <Navigate to='/' />}
         >
         </Route>

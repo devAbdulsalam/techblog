@@ -1,11 +1,10 @@
 import React, {useState } from "react";
 // import Logo from "../assets/logo.png";
 // import signinImage from "../assets/Simage.png";
-import {Link,  useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 
 const ForgetPassword = () => {
-  const navigate = useNavigate()
   const { forgetPassword, success, error, isLoading } = useLogin()
 
   // //forgetPassword
@@ -34,7 +33,7 @@ const ForgetPassword = () => {
                 placeholder="email"
               />
             </div>
-              <button className="bg-[#228e01] w-full text-white py-3 my-2 mt-4 rounded font-bold" disabled={isLoading}>
+              <button className="bg-[#228e01] w-full text-white py-3 my-2 mt-4 rounded font-bold" disabled={isLoading || email === ""}>
                 Forget Password
                 </button>
               {error && <div className="error duration-500 p-2 bg-red-300 text-red-800 text-center text-lg border-red-700 border-2 rounded-md">{error}</div>}

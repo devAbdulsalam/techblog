@@ -61,45 +61,45 @@ const updateProfile = async (req, res) => {
     }
 }
 
-// // forget Password
+// // // forget Password
+// const forgetPassword = async (req, res) => {
+//     const {email} = req.body
+//     try {
+//          const user = await User.fgtpswd(email)
+//         res.status(200).json({user})
+//         } catch (error) {
+//         res.status(404).json({error: error.message })
+//     }
+// }
 const forgetPassword = async (req, res) => {
     const {email} = req.body
     try {
         const user = await User.fgtpswd(email)
-        res.status(200).json(user)
-        } catch (error) {
-        res.status(404).json({error: error})
+        // create a token
+        const token = createToken(user._id)
+        const link = `https://Techstuf.Vercel.App/reset-password/${user._id}/${token}`;
+
+        const mailoption = {
+            from: 'ammuftau74@gmail.com', // sender address
+            to: email, // receivers address
+            subject: "Email for Password Reset", // Subject line
+            text: `This Link is valid for 2 Minutes ${link}`, // plain text body
+            html: `<p>This Link is valid for 2 Minutes ${link}</p>`, 
+        } 
+        
+        transporter.sendMail(mailoption, (error, info) => {
+            if(error){
+                // console.log(error, "error");
+                res.status(401).json({error: error, message: "Password reset link sent successfully"})
+            }else{
+                // console.log(info.response, "success");
+                res.status(200).json({token, info, message: "Password reset link sent successfully"})
+            }
+        })
+    } catch (error) {
+        res.status(404).json({error: error || error.message })
     }
 }
-// const forgetPassword = async (req, res) => {
-//     const {email} = req.body
-//     try {
-//         const user = await User.fgtpswd(email)
-//         // create a token
-//         const token = createToken(user._id)
-//         const link = `http://localhost:3000/resetpassword/${user._id}/${token}`;
-
-//         const mailoption = {
-//             from: 'ammuftau74@gmail.com', // sender address
-//             to: email, // receivers address
-//             subject: "Email for Password Reset", // Subject line
-//             text: `This Link is valid for 2 Minutes ${link}`, // plain text body
-//             html: `<p>This Link is valid for 2 Minutes ${link}</p>`, 
-//         } 
-        
-//         transporter.sendMail(mailoption, (error, info) => {
-//             if(error){
-//                 // console.log(error, "error");
-//                 res.status(401).json({error: error, message: "Password reset link sent successfully"})
-//             }else{
-//                 // console.log(info.response, "success");
-//                 res.status(200).json({token, info, message: "Password reset link sent successfully"})
-//             }
-//         })
-//     } catch (error) {
-//         res.status(404).json({error: error})
-//     }
-// }
 
 // // reset Password
 const resetPassword = async (req, res) => {
@@ -119,7 +119,7 @@ const resetPassword = async (req, res) => {
         res.status(200).json({user, verify, token, message : "Password Reset Successfully"})
 
     } catch (error) {
-        res.status(401).json({error : error, message : "Something went wrong"})
+        res.status(401).json({error : error || error.message, message : "Something went wrong"})
     }
 }
 
