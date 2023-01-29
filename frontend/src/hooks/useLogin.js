@@ -58,7 +58,7 @@ export const useLogin = () => {
       setIsLoading(false)
     }
 
-    axios.post('http://api-techstuff.onrender.com/user/forget-password', user)
+    axios.post('https://api-techstuff.onrender.com/user/forget-password', user)
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
@@ -119,9 +119,7 @@ export const useLogin = () => {
         setSuccess(data.message)
         setIsLoading(false)
         setError(false)
-        // setTimeout(() => {
-        //   setPhone(data.user.phone)
-        // }, 1000)
+        console.log(data)
       }).catch(error => {
         setError(error ? error.response?.data.error || error.message : error)
         setIsLoading(false)
