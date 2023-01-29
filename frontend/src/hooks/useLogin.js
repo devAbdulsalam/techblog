@@ -85,8 +85,9 @@ export const useLogin = () => {
       .then(data => {
         setSuccess(data.message)
         setTimeout(() => {
-          setSuccess(null)
+          navigate('/login')
         }, 1000)
+        setSuccess(null)
         setIsLoading(false)
       }).catch(error => {
         if (error.status || error.response.status === 401) {
@@ -103,6 +104,7 @@ export const useLogin = () => {
       })
       setIsLoading(false)
   }
+  
   const changePassword = async (user) => {
     setIsLoading(true)
     setError(null)
@@ -119,7 +121,7 @@ export const useLogin = () => {
         setSuccess(data.message)
         setIsLoading(false)
         setError(false)
-        console.log(data)
+        console.log(data) 
       }).catch(error => {
         setError(error ? error.response?.data.error || error.message : error)
         setIsLoading(false)

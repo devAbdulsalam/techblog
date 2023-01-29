@@ -21,6 +21,7 @@ const EditBlog = () => {
             .then((res) => {
                 setIsLoading(false)
                 setBlog(res.data)
+                console.log(res.data)
             })
             .catch((err) => {
                 setError(err.message)
@@ -28,14 +29,12 @@ const EditBlog = () => {
             })
     }, [id, setIsLoading])
 
-
-    const { title: blogTittle, content: blogContent, subtitle: subTitle, } = blog
     const { user } = useAuthContext()
     const { dispatch } = useBlogsContext()
     const { isEdit, setIsEdit } = useContext(EditContext);
-    const [title, setTitle] = useState(blogTittle)
-    const [subtitle, setSubtitle] = useState(subTitle)
-    const [content, setContent] = useState(blogContent)
+    const [title, setTitle] = useState(blog?.title)
+    const [subtitle, setSubtitle] = useState(blog.subtitle)
+    const [content, setContent] = useState(blog?.content)
     const [warning, setWarning] = useState(null)
 
 

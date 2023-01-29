@@ -25,14 +25,7 @@ const ResetPassword = () => {
     const user = {id, token, password, confirmPassword}
     changePassword(user)
   };
-
-
-
-  const loginUser = () =>{
-    const user = {phone, password}
-    login(user)
-  }
-   
+  
 
   return (
     <div className="font-serif min-h-screen bg-green-50">
@@ -70,11 +63,10 @@ const ResetPassword = () => {
                   {success && 
                   <div className="success duration-500 p-2 bg-green-300 text-green-800 text-center text-lg border-green-700 border-2 rounded-md">
                     <p>{success}</p>
-                    {phone && <p className="cursor-pointer">Do you want to login? <span onClick={() => loginUser()} className="text-green-500">Yes </span> <span onClick={() => navigate('/login')} className="text-red-600">No</span></p>}
-                </div>}
+                    </div>}
 
                 <div className="flex justify-center text-lg  items-center  text-gray-800">
-                  <Link to={'/login'} className="text-green-700 text-lg">Login </Link> extead?  
+                  <Link to={'/login'} className="text-green-700 text-lg">Login </Link> instead?  
                 </div>
               </form>
             </div>
