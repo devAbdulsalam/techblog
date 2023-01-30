@@ -76,7 +76,7 @@ export const useBlogs = () => {
     setIsLoading(true)
     setError(null)
 
-    axios.get('http//localhost:4000/blogs/search', query, config)
+    axios.get('https://api-techstuff.onrender.com/blogs/search', query, config)
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
