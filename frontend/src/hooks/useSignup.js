@@ -7,7 +7,8 @@ import axios from "axios";
 
 export const useSignup = () => {
   const navigate = useNavigate()
-  const location = useLocation()
+  const location = useLocation()  
+  const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null);
   const { setIsLoading } = useContext(LoadingContext);
   const { dispatch } = useAuthContext()
@@ -34,23 +35,27 @@ export const useSignup = () => {
     axios.post('https://api-techstuff.onrender.com/user/signup', user)
       .then(res => res.data)
       .then(data => {
-        console.log(data.message)
+        setSuccess(data.message)
+        
+        // update loading state
+        setIsLoading(false)
+        
+        setTimeout(() => {
         navigate(redirectPath, { replace: true })
 
         setIsLoading(false)
         // save the user to local storage
         localStorage.setItem('techstuff', JSON.stringify(data))
         dispatch({ type: 'LOGIN', payload: data })
-
-        // update loading state
-        setIsLoading(false)
+        
+        }, 2000)
       }).catch(error => {
           setError(error ? error.response?.data.error || error.message : error)
           setIsLoading(false)
         })
   }
 
-  return { signup, error }
+  return { signup, success, error }
 }
 
 

@@ -73,7 +73,7 @@ const updateBlog = async (req, res) => {
          return res.status(404).json({ error: 'Not a valid id'})
         }
     try{
-        const blog = await Blog.findByIdAndUpdate({_id :id})
+        let blog = await Blog.findByIdAndUpdate({_id :id})
         if(blog){
             blog.title = req.body.title || blog.title
             blog.subtitle = req.body.subtitle || blog.subtitle
@@ -81,8 +81,8 @@ const updateBlog = async (req, res) => {
             blog.keywords = req.body.keywords || blog.keywords
             blog.content = req.body.content || blog.content
         }
-        const updated = await blog.save()
-        res.status(200).json({updated, message: 'Blog updated successfully'})
+        blog = await blog.save()
+        res.status(200).json({blog, message: 'Blog updated successfully'})
     } catch (error) {
         res.status(404).json({error: error.message})
     }

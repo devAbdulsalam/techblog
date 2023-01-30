@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
+import { useBlogs } from '../hooks/useBlogs'
 
 import userImg from '../assests/avatar-05.png'
 // date-fms
@@ -13,7 +14,8 @@ const SingleBlog = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const { user } = useAuthContext()
-    const [blog, setBlog] = useState(null)
+    const [blog, setBlog] = useState(null)    
+    const { deleteblog } = useBlogs()
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const [error, setError] = useState(false)
 
@@ -36,16 +38,7 @@ const SingleBlog = () => {
             return
         }
         setIsLoading(true)
-        axios.delete(`https://api-techstuff.onrender.com/blogs/${id}`, { headers: { 'Authorization': `Bearer ${user.token}` } })
-            .then((res) => {
-                console.log(res.data)
-                setIsLoading(false)
-                navigate('/')
-            })
-            .catch((err) => {
-                setIsLoading(false)
-                console.log(err.message)
-            })
+       deleteblog(id)
     }
     // //update blog
     // const handleEdit = () => {

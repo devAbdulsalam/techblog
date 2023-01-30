@@ -7,7 +7,6 @@ import LoadingProvider from './context/LoadingContext';
 import BlogProvider from './context/BlogContext';
 import AuthContextProvider from './context/AuthContext';
 import NavbarContext from './context/NavbarContext';
-import EditContextProvider from './context/EditContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +14,6 @@ root.render(
     <BrowserRouter>
       <LoadingProvider>
         <NavbarContext>
-          <EditContextProvider>
             <BlogProvider>
               <AuthContextProvider>
                 <Routes>
@@ -24,7 +22,6 @@ root.render(
                 </Routes>
               </AuthContextProvider>
             </BlogProvider>
-          </EditContextProvider>
         </NavbarContext>
       </LoadingProvider>
     </BrowserRouter>

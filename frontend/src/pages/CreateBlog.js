@@ -1,20 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
-import { useBlogsContext } from '../context/useBlogContext'
-import { useNavigate } from 'react-router-dom'
 import Loading from '../components/Loading'
+import { useBlogs } from '../hooks/useBlogs';
 
 const CreateBlog = () => {
-    const navigate = useNavigate()
     const { user } = useAuthContext()
-    const { dispatch } = useBlogsContext()
+    const { createblog, error, success, isLoading } = useBlogs()
     const [title, setTitle] = useState("")
     const [subtitle, setSubtitle] = useState("")
     const [keywords, setKeywords] = useState("")
     const [author, setAuthor] = useState('')
     const [content, setContent] = useState('')
-    const [alert, setAlert] = useState(null);
+    const [alert, setAlert] = useState('')
     const { setIsLoading } = useContext(LoadingContext);
 
     useEffect(() => {
@@ -38,27 +36,11 @@ const CreateBlog = () => {
         } else {
             const blog = { user_id: user.user._id, title, subtitle, content, author, keywords }
             setIsLoading(true)
-            const response = await fetch(`https://api-techstuff.onrender.com/blogs`, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                    'Authorization': `Bearer ${user.token}`
-                },
-                body: JSON.stringify(blog)
-            })
-            const json = await response.json()
-            if (!response.ok) {
-                console.log(json.error)
-                setIsLoading(false)
-            }
-            if (response.ok) {
-                navigate('/')
+            await createblog(blog)
+            if(success){
                 setTitle('')
                 setSubtitle('')
                 setContent('')
-                dispatch({ type: 'CREATE_BLOGS', payload: json.blog })
-                console.log('new blog added:', json.message)
-                setIsLoading(false)
             }
         }
     }
@@ -151,10 +133,11 @@ const CreateBlog = () => {
                         </textarea>
                     </div>
                     <div className="relative mb-2">
-                        <p className={`${alert ? `top-0` : '-top-5'} w-full p-2 mb-2 absolute font-bold text-center text-lg text-red-500 duration-500`}>{alert}</p>
+                        {error ? <p className={`${error ? `top-0` : '-top-5'} w-full p-2 mb-2 absolute font-bold text-center text-lg text-red-500 duration-500`}>{error}</p> : ''}
+                        {alert ? <p className={`${alert ? `top-0` : '-top-5'} w-full p-2 mb-2 absolute font-bold text-center text-lg text-red-500 duration-500`}>{alert}</p> : ''}
                     </div>
                     <div className='gap-1 px-1 space-x-2'>
-                        <button type="submit" className="bg-[#228e01] w-full max-w-[200px] mx-auto inline-block text-white py-3 text-xl my-6 rounded font-bold">Publish</button>
+                        <button disabled={isLoading} type="submit" className="bg-[#228e01] w-full max-w-[200px] mx-auto inline-block text-white py-3 text-xl my-6 rounded font-bold">Publish</button>
                         <button onClick={() => SaveDraft()} className='mx-2'>Save draft</button>
                     </div>
                 </form>

@@ -30,18 +30,18 @@ export const useLogin = () => {
       .then(res => res.data)
       .then(data => {
 
-        console.log(data)
+        setSuccess(data.message)
         // save the user to local storage
-        if (data) {
-          window.localStorage.setItem("techstuff", JSON.stringify(data));
-        }
-        dispatch({ type: 'LOGIN', payload: data })
-
-        navigate(redirectPath, { replace: true })
         setIsLoading(false)
+        setTimeout(() => {
+          if (data) {
+            window.localStorage.setItem("techstuff", JSON.stringify(data));
+          }
+          dispatch({ type: 'LOGIN', payload: data })
+          
+          navigate(redirectPath, { replace: true })
+        }, 2000)
 
-        // update loading state
-        setIsLoading(false)
       }).catch(error => {
         setError(error ? error.response?.data.error || error.message : error)
         setIsLoading(false)
@@ -104,7 +104,7 @@ export const useLogin = () => {
       })
       setIsLoading(false)
   }
-  
+
   const changePassword = async (user) => {
     setIsLoading(true)
     setError(null)

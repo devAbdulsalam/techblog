@@ -8,7 +8,7 @@ import Loading from "../components/Loading"
 const Login = () => {
     const navigate = useNavigate();
     const { setIsLoading } = useContext(LoadingContext);
-    const { login, error, isLoading } = useLogin()
+    const { login, error, success, isLoading } = useLogin()
 
     useEffect(() => {
         setIsLoading(false)
@@ -32,7 +32,7 @@ const Login = () => {
                     <div className="my-2">
                         <label htmlFor="phone" className='text-lg font-semibold'>Phone Number:</label>
                         <input onChange={(e) => setphone(e.target.value)}
-                            className="px-3 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            className="px-3 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             type="phone"
                             value={phone}
                             placeholder="Phone"
@@ -45,7 +45,7 @@ const Login = () => {
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="px-3 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            className="px-3 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             type="password"
                             id="password"
                             placeholder="Password"
@@ -56,7 +56,8 @@ const Login = () => {
                         Log in
                     </button>
                     {error && <div className="error duration-500 p-2 bg-red-300 text-red-800 text-center text-lg border-red-700 border-2 rounded-md">{error}</div>}
-
+                    {success && <div className="success duration-500 p-2 bg-green-300 text-green-800 text-center text-lg border-green-700 border-2 rounded-md">{success}</div>}
+                    
                     <div className="flex justify-between items-center text-lg md:text-xl text-gray-600">
                         <p>
                             <input className="mr-2 debug" type="checkbox" />

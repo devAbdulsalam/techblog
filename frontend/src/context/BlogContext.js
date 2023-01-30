@@ -11,15 +11,15 @@ export const blogsReducer = (state, action) => {
       return {
         blogs: action.payload
       }
-    case 'CREATE_BLOGS':
+    case 'CREATE_BLOG':
       return {
         blogs: [action.payload, ...state.blogs]
       }
-    case 'UPDATE_BLOGS':
+    case 'UPDATE_BLOG':
       return {
         blogs: state.blogs.filter(blog => blog._id !== action.payload._id)
       }
-    case 'SEARCH_BLOGS':
+    case 'SEARCH_BLOG':
       return {
         blogs: state.blogs.filter(blog => {
           if (blog.keywords.toLowerCase().includes(action.payload.query) || blog.title.toLowerCase().includes(action.payload.query) || blog.subtitle.toLowerCase().includes(action.payload.query) || blog.author.toLowerCase().includes(action.payload.query)) {
@@ -28,7 +28,8 @@ export const blogsReducer = (state, action) => {
           return blog;
         })
       }
-    case 'DELETE_BLOGS':
+    case 'DELETE_BLOG':
+      console.log(action.payload)
       return {
         blogs: state.blogs.filter(blog => blog._id !== action.payload._id)
       }

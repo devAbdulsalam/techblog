@@ -27,7 +27,7 @@ const ForgetPassword = () => {
               <label htmlFor="phone" className='text-xl font-semibold'>Email:</label>
               <input
                 onChange={(e) => setEmail(e.target.value)}
-                className="px-3 my-2 py-2 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-green-600 focus:outline-none"
+                className="px-3 my-2 py-2 text-lg w-full font-normal text-gray-400 bg-clip-padding border-2 border-gray-500 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-green-600 focus:outline-none"
                 type="email"
                 value={email}
                 placeholder="email"

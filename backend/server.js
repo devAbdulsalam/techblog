@@ -4,8 +4,9 @@ const express = require('express');
 const compression = require('compression')
 const mongoose = require("mongoose");
 const cors = require("cors")
-const blogRoutes = require('./routes/blogs')
 const userRoutes = require('./routes/user')
+const blogRoutes = require('./routes/blogs')
+const draftRoutes = require('./routes/drafts')
 
 // express app
 const app = express();
@@ -38,11 +39,16 @@ app.get("/", (req, res) => {
     res.sendFile('./views/index.html', { root: __dirname });
 });
 
+// // users routes
+app.use("/user", userRoutes)
+
 // // blogs routes
 app.use("/blogs", blogRoutes)
 
-// // users routes
-app.use("/user", userRoutes)
+
+// // drafts routes
+app.use("/blogs/draft", draftRoutes)
+
 
 
 

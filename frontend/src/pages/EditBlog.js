@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
-import { EditContext } from '../context/EditContext'
-import { useBlogsContext } from '../context/useBlogContext'
 import Loading from '../components/Loading'
 import axios from 'axios'
+import { useBlogs } from '../hooks/useBlogs'
 
 const EditBlog = () => {
     const { id } = useParams()
-    const navigate = useNavigate()
-    const [blog, setBlog] = useState(null)
+    const { editblog} = useBlogs()
+    const [title, setTitle] = useState('')
+    const [subtitle, setSubtitle] = useState('')
+    const [content, setContent] = useState('')
+    const [warning, setWarning] = useState(null)
     const [error, setError] = useState(false)
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
@@ -20,8 +21,9 @@ const EditBlog = () => {
         axios.get(`https://api-techstuff.onrender.com/blogs/${id}`)
             .then((res) => {
                 setIsLoading(false)
-                setBlog(res.data)
-                console.log(res.data)
+                setTitle(res.data.title || '')
+                setSubtitle(res.data.subtitle || '')
+                setContent(res.data.content || '')
             })
             .catch((err) => {
                 setError(err.message)
@@ -29,13 +31,7 @@ const EditBlog = () => {
             })
     }, [id, setIsLoading])
 
-    const { user } = useAuthContext()
-    const { dispatch } = useBlogsContext()
-    const { isEdit, setIsEdit } = useContext(EditContext);
-    const [title, setTitle] = useState(blog?.title)
-    const [subtitle, setSubtitle] = useState(blog.subtitle)
-    const [content, setContent] = useState(blog?.content)
-    const [warning, setWarning] = useState(null)
+    
 
 
     // //update blog
@@ -45,39 +41,14 @@ const EditBlog = () => {
             console.log("fill all input field")
         } else {
             const blog = { id, title, subtitle, content }
-            setIsLoading(true)
-            const response = await fetch(`https://api-techstuff.onrender.com/blogs/${id}`, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                    'Authorization': `Bearer ${user.token}`
-                },
-                body: JSON.stringify(blog)
-            })
-
-            const json = await response.json()
-            if (!response.ok) {
-                console.log(json)
-                setIsLoading(false)
-                window.location.reload()
-            }
-            if (response.ok) {
-                setTitle('')
-                setSubtitle('')
-                setContent('')
-                setWarning('blog updated successfully:', json)
-                dispatch({ type: 'EDIT_BLOG', payload: json.blog })
-                setIsEdit(false)
-                setIsLoading(false)
-            }
+            editblog(blog, id)
         }
     }
     return (
-        <section className={`${isEdit ? 'flex' : 'hidden'} h-screen w-full absolute bg-black/5 z-[997] transition-all duration-300  place-items-center`}>
+        <section className={`flex h-screen w-full bg-black/5 z-[997] transition-all duration-300  place-items-center`}>
 
-            {!isLoading ? <div className='w-full flex place-content-center p-2 md:p-10'>
+            {!isLoading || error ? <div className='w-full flex place-content-center p-2 md:p-10'>
                 <div className='bg-gray p-2 mt-10 rounded-md shadow-xl bg-white'>
-                    <i onClick={() => navigate('/')} className="close fa fa-times text-gray-700 text-2xl float-right cursor-pointer mr-5"></i>
                     <form onSubmit={handleSubmit} className="pb-10 p-2 mx-1">
                         <h1 className="text-center text-4xl font-bold py-5">Edit Blog post</h1>
                         <div className="row">
@@ -89,7 +60,7 @@ const EditBlog = () => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 placeholder="Title"
-                                className="px-3 my-2 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                className="px-3 my-2 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 required
                             />
                         </div>
@@ -102,7 +73,7 @@ const EditBlog = () => {
                                 value={subtitle}
                                 onChange={(e) => setSubtitle(e.target.value)}
                                 placeholder="subtitle"
-                                className="px-3 my-2 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                className="px-3 my-2 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             />
                         </div>
                         <div className="row">
@@ -113,7 +84,7 @@ const EditBlog = () => {
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
                                 placeholder="Body"
-                                className="px-3 my-2 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                className="px-3 my-2 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 required
                                 cols="50"
                                 rows="10"

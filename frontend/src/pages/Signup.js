@@ -6,7 +6,7 @@ import Loading from '../components/Loading'
 
 const Signup = () => {
     const navigate = useNavigate();
-    const { signup, error, isLoading } = useSignup();
+    const { signup, error, success, isLoading } = useSignup();
 
     const { setIsLoading } = useContext(LoadingContext);
     useEffect(() => {
@@ -37,7 +37,7 @@ const Signup = () => {
                         <label htmlFor="name" className='text-lg font-semibold'>Name:</label>
                         <input
                             onChange={(e) => setName(e.target.value)}
-                            className="px-3 my-1 py-1.5 text-base w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            className="px-3 my-1 py-1.5 text-base w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             type="text"
                             value={name}
                             placeholder="Adekunle Bala Chukwueze"
@@ -64,7 +64,7 @@ const Signup = () => {
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="px-3 my-1 py-1.5 text-base w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            className="px-3 my-1 py-1.5 text-base w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             type="email"
                             id="email"
                             name="email"
@@ -77,7 +77,7 @@ const Signup = () => {
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="px-3 my-1 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            className="px-3 my-1 py-1.5 text-lg w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             type="password"
                             placeholder="Uni9ue&$tr0ng"
                             id="password"
@@ -90,7 +90,7 @@ const Signup = () => {
                         <input
                             value={cpassword}
                             onChange={(e) => setCPassword(e.target.value)}
-                            className="px-3 my-1 py-1.5 text-base w-full font-normal text-gray-500 bg-clip-padding border-0 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            className="px-3 my-1 py-1.5 text-base w-full font-normal text-gray-500 bg-clip-padding border-2 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             type="password"
                             name="cpswd"
                             id="cpswd"
@@ -103,7 +103,7 @@ const Signup = () => {
                             Log in
                         </button>
                         {error && <div className="error duration-500 p-2 bg-red-300 text-red-800 text-center text-lg border-red-700 border-2 rounded-md">{error}</div>}
-
+                        {success && <div className="success duration-500 p-2 bg-green-300 text-green-800 text-center text-lg border-green-700 border-2 rounded-md">{success}</div>}
                         <p className="py-4 text-gray-600">
                             Already have an Account?
                             <span onClick={() => navigate('/login')} className="text-green-700 cursor-pointer"> Login</span>
