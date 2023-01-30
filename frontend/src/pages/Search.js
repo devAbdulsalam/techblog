@@ -12,8 +12,8 @@ const Search = () => {
     const { blogs } = useContext(BlogContext);
     const { searchblogs, success, error} = useBlogs()
     const { setIsLoading } = useContext(LoadingContext);
-    setIsLoading(false)
     useEffect(() => {
+        setIsLoading(false)
         searchblogs(query)
     }, [blogs, query, searchblogs])
 
@@ -21,14 +21,14 @@ const Search = () => {
   return (
     <div>
         {success ? <div className="w-full">
-            {blogs && blogs?.length >= 0 ? blogs.map((blog) => (<Blog key={blog._id} blog={blog} />)) : ''}
+            {blogs && blogs?.length >= 0 ? blogs?.map((blog) => (<Blog key={blog?._id} blog={blog} />)) : ''}
           </div> : ''}
     {error || blogs?.length !== 0 ?
-        <div className='text-center'>
-            <h2 className='text-2xl font-semibold'>No results found</h2>
-            <p>Try shortening or rephrasing your search.</p>
+        <div className='text-center space-y-2'>
+            <h2 className='text-2xl md:text-3xl mt-10 p-2 font-semibold'>No results found</h2>
+            <p className=''>Try shortening or rephrasing your search.</p>
             <div>
-                <button onClick={() => navigate('/')} className='rounded border-2 order-gray-400 focus:border-gray-700 text-xl'>Back to home</button>
+                <button onClick={() => navigate('/')} className='rounded-full p-2 cursor-pointer border-2 bg-white border-gray-500 focus:border-gray-700 text-lg'>Back to home</button>
             </div>
         </div>
     : ""} 
