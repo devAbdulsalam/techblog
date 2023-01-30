@@ -13,7 +13,7 @@ router.get('/allblogs', getAllBlog)
 router.get('/:id', singleBlog)
 
 // search blog
-router.post('/', searchBlog)
+router.post('/search', searchBlog)
 
 ////Authenticated user
 router.use(requireAuth)

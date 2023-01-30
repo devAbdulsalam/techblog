@@ -45,7 +45,25 @@ export const useBlogs = () => {
         setSuccess(data.message)
         setIsLoading(false)
         setTimeout(() => {
-        dispatch({ type: 'CREATE_BLOG', payload:data.blog })
+        dispatch({ type: 'ALL_BLOG', payload:data.blog })
+        navigate('/')                
+        }, 2000);
+      }).catch(error =>{
+        console.log(error)
+          setIsLoading(false)
+      })
+  }
+  const getallblogs = async () => {
+    setIsLoading(true)
+    setError(null)
+
+    axios.get('https://api-techstuff.onrender.com/blogs/allblogs', config)
+      .then(res => res.data)
+      .then(data => {
+        setSuccess(data.message)
+        setIsLoading(false)
+        setTimeout(() => {
+        dispatch({ type: 'ALL_BLOG', payload:data.blog })
         navigate('/')                
         }, 2000);
       }).catch(error =>{
@@ -58,7 +76,7 @@ export const useBlogs = () => {
     setIsLoading(true)
     setError(null)
 
-    axios.get('https://api-techstuff.onrender.com/blogs', query, config)
+    axios.get('http//localhost:4000/blogs/search', query, config)
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
@@ -124,5 +142,5 @@ export const useBlogs = () => {
       })
   }
 
-  return {createblog, getblog, getblogs, searchblogs, editblog, deleteblog, error, success, isLoading}
+  return {createblog, getblog, getallblogs, getblogs, searchblogs, editblog, deleteblog, error, success, isLoading}
 }
