@@ -54,6 +54,26 @@ export const useBlogs = () => {
       })
   }
 
+  const searchblogs = async (query) => {
+    setIsLoading(true)
+    setError(null)
+
+    axios.get('https://api-techstuff.onrender.com/blogs', query, config)
+      .then(res => res.data)
+      .then(data => {
+        setSuccess(data.message)
+        setIsLoading(false)
+        setTimeout(() => {
+        // dispatch({ type: 'CREATE_BLOG', payload:data.blog })
+        console.log(data)
+        navigate('/')                
+        }, 2000);
+      }).catch(error =>{
+        console.log(error)
+          setIsLoading(false)
+      })
+  }
+
   const createblog = (blog) =>{
     axios.post('https://api-techstuff.onrender.com/blogs', blog, config)
       .then(res => res.data)
@@ -76,12 +96,11 @@ export const useBlogs = () => {
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
-        console.log(data)
         setIsLoading(false)
         setTimeout(() => {        
           dispatch({ type: 'UPDATE_BLOG', payload: data.blog })
-          navigate('/')                
-        }, 2000);
+          navigate(`/${id}`)                
+        }, 500);
       }).catch(error =>{
         console.log(error)
           setIsLoading(false)
@@ -94,10 +113,9 @@ export const useBlogs = () => {
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
-        dispatch({ type: 'DELETE_BLOG', payload:id })
-        console.log(data)
+        setIsLoading(false)
         setTimeout(() => {
-          setIsLoading(false)
+          dispatch({ type: 'DELETE_BLOG', payload:id })
         navigate('/')                
         }, 1000);
       }).catch(error =>{
@@ -106,5 +124,5 @@ export const useBlogs = () => {
       })
   }
 
-  return {createblog, getblog, getblogs, editblog, deleteblog, error, success, isLoading}
+  return {createblog, getblog, getblogs, searchblogs, editblog, deleteblog, error, success, isLoading}
 }

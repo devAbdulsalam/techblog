@@ -2,35 +2,29 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuthContext } from '../context/useAuthContext'
 import { LoadingContext } from '../context/LoadingContext'
+import { BlogContext } from '../context/BlogContext'
 import { useBlogs } from '../hooks/useBlogs'
 
 import userImg from '../assests/avatar-05.png'
 // date-fms
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import axios from 'axios'
 import Loading from '../components/Loading'
 
 const SingleBlog = () => {
     const { id } = useParams()
+    const { blogs } = useContext(BlogContext);
     const navigate = useNavigate()
     const { user } = useAuthContext()
     const [blog, setBlog] = useState(null)    
-    const { deleteblog } = useBlogs()
+    const { deleteblog, success, error} = useBlogs()
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-    const [error, setError] = useState(false)
 
     useEffect(() => {
-        setIsLoading(true)
-        axios.get(`https://api-techstuff.onrender.com/blogs/${id}`)
-            .then((res) => {
-                setIsLoading(false)
-                setBlog(res.data)
-            })
-            .catch((err) => {
-                setError(err.message)
-                console.log(err.message)
-            })
-    }, [id, setIsLoading])
+        if(blogs && blogs.length !== 0){
+            let blog = blogs.filter(blog => blog._id === id)
+            setBlog(blog[0])
+        }                
+    }, [blogs, id, setIsLoading])
 
     // //delete blog
     const handleDelete = () => {
@@ -40,12 +34,6 @@ const SingleBlog = () => {
         setIsLoading(true)
        deleteblog(id)
     }
-    // //update blog
-    // const handleEdit = () => {
-    //     console.log(blog?._id)
-    //     navigate()
-
-    // }
     // //update blog
     const handleRating = () => {
         console.log("star")
@@ -63,15 +51,19 @@ const SingleBlog = () => {
                         </Link>
                         <div className='ml-2'>
                             {blog?.author ? <p className='text-sm font-semibold'>By {blog?.author}</p> : ""}
-                            {blog ? < p className='capitalize text-sm'>{formatDistanceToNow(new Date(blog.createdAt), { addSuffix: true })}</p> : ""}
+                            {blog ? < p className='capitalize text-sm'>{formatDistanceToNow(new Date(blog?.createdAt), { addSuffix: true })}</p> : ""}
                         </div>
                     </div>
                     <h1 className="text-2xl pb-px font-bold">{blog?.title}</h1>
                     <h2 className='text-lg pb-1 capitalize font-semibold'>{blog?.subtitle}</h2>
                     <p className='text-lg p-2'>{blog?.content}</p>
+                    <div className=''>
+                        {error && <div className="error duration-500 my-2 p-2 bg-red-300 text-red-800 text-center text-lg border-red-700 border-2 rounded-md">{error}</div>}
+                        {success && <div className="success duration-500 my-2 p-2 bg-green-300 text-green-800 text-center text-lg border-green-700 border-2 rounded-md">{success}</div>}
+                    </div>
                     {user && blog?.user_id === user?.user?._id ?
                         <div className='pt-10 pb-2'>
-                            <button onClick={() => navigate(-1)} className="p-2 bg-green-50 hover:bg-green-100 text-green-500 rounded-md mx-2">
+                            <button onClick={() => navigate('/')} className="p-2 bg-green-50 hover:bg-green-100 text-green-500 rounded-md mx-2">
                                 <ion-icon name="return-down-back-outline" size="large"></ion-icon>
                             </button>
                             <Link to={`/edit-post/${blog?._id}`} className="p-2 cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-md  mx-2">
@@ -83,7 +75,7 @@ const SingleBlog = () => {
                         </div>
                         :
                         <div className='pt-10 pb-2 flex'>
-                            <button onClick={() => navigate(-1)} className="p-2 bg-green-50 hover:bg-green-100 text-green-500 rounded-md mx-2">
+                            <button onClick={() => navigate('/')} className="p-2 bg-green-50 hover:bg-green-100 text-green-500 rounded-md mx-2">
                                 <ion-icon name="return-down-back-outline" size="large"></ion-icon>
                             </button>
                             <button onClick={handleRating} className="pl-4 p-2 cursor-pointer bg-gold-500 hover:bg-yellow-100 text-gold-500 rounded-md">

@@ -18,6 +18,7 @@ import ResetPassword from './pages/ResetPassword'
 // component
 import Layout from './Layout';
 import ProtectedRoutes from './components/ProtectedRoutes';
+import Search from './pages/Search';
 
 
 
@@ -58,6 +59,10 @@ function App() {
           element={<Home />}
         >
         </Route>
+        <Route
+          path="/search/:query"
+          element={<Search />}
+        />
         <Route
           path="/signin"
           element={!user ? <Signup /> : <Navigate to='/' />}

@@ -17,21 +17,22 @@ export const blogsReducer = (state, action) => {
       }
     case 'UPDATE_BLOG':
       return {
-        blogs: state.blogs.filter(blog => blog._id !== action.payload._id)
-      }
+        blogs: state.blogs.map(blog => 
+          blog._id === action.payload._id ? action.payload : blog
+        ),
+      };
     case 'SEARCH_BLOG':
       return {
-        blogs: state.blogs.filter(blog => {
-          if (blog.keywords.toLowerCase().includes(action.payload.query) || blog.title.toLowerCase().includes(action.payload.query) || blog.subtitle.toLowerCase().includes(action.payload.query) || blog.author.toLowerCase().includes(action.payload.query)) {
-            return blog
-          }
-          return blog;
-        })
-      }
+        blogs: state.blogs.filter(blog => 
+          blog.keywords.toLowerCase().includes(action.payload.toLowerCase()) ||
+          blog.title.toLowerCase().includes(action.payload.toLowerCase()) ||
+          blog.subtitle.toLowerCase().includes(action.payload.toLowerCase()) ||
+          blog.author.toLowerCase().includes(action.payload.toLowerCase())
+        ),
+      };
     case 'DELETE_BLOG':
-      console.log(action.payload)
       return {
-        blogs: state.blogs.filter(blog => blog._id !== action.payload._id)
+        blogs: state.blogs.filter(blog => blog._id !== action.payload)
       }
     default:
       return state
@@ -65,15 +66,6 @@ const BlogProvider = ({ children }) => {
     fetchBlogs()
   }, [setIsLoading])
 
-
-  // const searchBlog = (query) =>{
-  //   let searchedBlogs = blogs.filter((blog) => (blog.keywords.toLowerCase().includes(query) || blog.title.toLowerCase().includes(query) || blog.subtitle.toLowerCase().includes(query) || blog.author.toLowerCase().includes(query)));
-  //   if(!searchedBlogs){
-  //     console.log("No blog found")
-  //     return setAlert("no blog found")
-  //   }
-  //   setBlogs(searchedBlogs)
-  // }
 
   return (
     < BlogContext.Provider value={{ ...state, dispatch, isError }}>

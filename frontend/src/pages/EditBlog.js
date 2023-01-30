@@ -1,35 +1,27 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { LoadingContext } from '../context/LoadingContext'
 import Loading from '../components/Loading'
-import axios from 'axios'
 import { useBlogs } from '../hooks/useBlogs'
+import { BlogContext } from '../context/BlogContext'
 
 const EditBlog = () => {
-    const { id } = useParams()
-    const { editblog} = useBlogs()
+    const { id } = useParams()    
+    const { blogs } = useContext(BlogContext);
+    const { editblog, success, error} = useBlogs()
     const [title, setTitle] = useState('')
     const [subtitle, setSubtitle] = useState('')
     const [content, setContent] = useState('')
-    const [warning, setWarning] = useState(null)
-    const [error, setError] = useState(false)
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-
-
+    setIsLoading(false)
     useEffect(() => {
-        setIsLoading(true)
-        axios.get(`https://api-techstuff.onrender.com/blogs/${id}`)
-            .then((res) => {
-                setIsLoading(false)
-                setTitle(res.data.title || '')
-                setSubtitle(res.data.subtitle || '')
-                setContent(res.data.content || '')
-            })
-            .catch((err) => {
-                setError(err.message)
-                console.log(err.message)
-            })
-    }, [id, setIsLoading])
+        if(blogs && blogs.length !== 0){
+            let blog = blogs.filter(blog => blog._id === id)
+                setTitle(blog[0].title || '')
+                setSubtitle(blog[0].subtitle || '')
+                setContent(blog[0].content || '')
+            }
+    }, [blogs, id, setIsLoading])
 
     
 
@@ -91,8 +83,9 @@ const EditBlog = () => {
                             >
                             </textarea>
                         </div>
-                        <div className="relative mb-2">
-                            <p className={`${warning ? `top-0` : '-top-5'} w-full p-2 mb-2  font-bold text-center text-lg text-red-500 duration-500`}>{warning}</p>
+                        <div className='mb-2'>
+                            {error && <div className="error duration-500 p-2 bg-red-300 text-red-800 text-center text-lg border-red-700 border-2 rounded-md">{error}</div>}
+                            {success && <div className="success duration-500 p-2 bg-green-300 text-green-800 text-center text-lg border-green-700 border-2 rounded-md">{success}</div>}
                         </div>
                         <div>
                             <button type="submit" className="bg-[#228e01] w-full max-w-[300px] mx-auto inline-block text-white py-3 text-xl my-6 rounded font-bold">Update blog</button>

@@ -22,6 +22,23 @@ const getAllBlog = async (req, res) => {
     res.status(200).json(blog)
 }
 
+// get a searchblog
+const searchBlog = async (req, res) => {
+    const {query} = req.body
+    const blog = await Blog.find({
+    $or: [
+      {title: {$regex: query, $options: 'i'}},
+      {content: {$regex: query, $options: 'i'}},
+      {author: {$regex: query, $options: 'i'}}
+    ]
+  });
+  if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+    res.status(200).json({blog, message : "blog created successfully"})
+}
+
+
 // create a  blog
 const createBlog = async (req, res) => {
     const {user_id, title, subtitle, content, author, keywords} = req.body
@@ -87,6 +104,7 @@ const updateBlog = async (req, res) => {
         res.status(404).json({error: error.message})
     }
 }
+
 
 // get a single blog
 const singleBlog = async (req, res) => {
@@ -156,6 +174,7 @@ module.exports = {
     getAllBlog,
     myBlog, 
     singleBlog,
+    searchBlog,
     createBlog, 
     deleteBlog, 
     updateBlog,

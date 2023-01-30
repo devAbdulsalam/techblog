@@ -1,28 +1,30 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { blogLinks, userLinks, menuLinks } from '../Data'
 // //hooks
 import { useLogout } from '../hooks/useLogout'
 // //contexts
 import { useAuthContext } from '../context/useAuthContext'
 import { NavbarContext } from '../context/NavbarContext'
-import { BlogContext } from '../context/BlogContext'
 import Profile from "./Profile";
 import userImg from '../assests/avatar-05.png'
 // components
 import ScrollIndicator from './ScrollIndicator';
 
 const Navbar = () => {
-  // const [sticky, setSticky] = useState(false);
+  const navigate = useNavigate();
   const { isOpen: open, setIsOpen: setOpen } = useContext(NavbarContext);
   const [isProfile, setIsProfile] = useState(false)
   const { logout } = useLogout()
   const { user } = useAuthContext()
-  const { searchBlog } = useContext(BlogContext);
-
-  // dispatch({type: 'CREATE_BLOGS', payload: json.blog})
-
   const [searchInput, setSearchInput] = useState('')
+  const searchBlog = (query) =>{
+    if(!query){
+      return
+    }
+    console.log(query)
+    navigate(`/search/${query}`)
+  }
 
   return (
     <nav
