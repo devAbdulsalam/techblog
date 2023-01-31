@@ -26,11 +26,20 @@ const blogSchema = new Schema({
         type : String,
         require: true
     },
-    likes:{
-        type : Number,
-        require: true
+    photo:{
+        data : Buffer,
+        contentType: String
     },
+    likes:[{
+        type : ObjectId,
+        ref: "User"
+    }],
+    comments:[{
+        text: String,
+        created: {type: Date, default: Date.now},
+        postedBy: {type: ObjectId, ref: "User"}
+    }]
 }, {timestamps : true});
 
 const Blog = mongoose.model('Blog', blogSchema);
-module.exports = Blog;
+module.exports = Blog;  

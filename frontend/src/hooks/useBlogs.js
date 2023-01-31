@@ -75,15 +75,13 @@ export const useBlogs = () => {
   const searchblogs = async (query) => {
     setIsLoading(true)
     setError(null)
-
     axios.post('https://api-techstuff.onrender.com/blogs/search', query, config)
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
         setIsLoading(false)
         setTimeout(() => {
-        // dispatch({ type: 'CREATE_BLOG', payload:data.blog })
-        console.log(data)
+        dispatch({ type: 'SEARCH_BLOG', payload:data.blog })
         navigate('/')                
         }, 2000);
       }).catch(error =>{
@@ -141,6 +139,89 @@ export const useBlogs = () => {
           setIsLoading(false)
       })
   }
+  // like blog
+  const likeblog = (data) =>{
+     axios.put(`https://api-techstuff.onrender.com/blogs/like`, data, config)
+      .then(res => res.data)
+      .then(data => {
+        setSuccess(data.message)
+        setIsLoading(false)
+        setTimeout(() => {
+          console.log(data)
+          // dispatch({ type: 'DELETE_BLOG', payload:id })
+        navigate('/')                
+        }, 1000);
+      }).catch(error =>{
+        console.log(error)
+          setIsLoading(false)
+      })
+  }
+  // unlike blog
+  const unlikeblog = (data) =>{
+     axios.put(`https://api-techstuff.onrender.com/blogs/unlike`, data, config)
+      .then(res => res.data)
+      .then(data => {
+        setSuccess(data.message)
+        setIsLoading(false)
+        setTimeout(() => {
+          console.log(data)
+          // dispatch({ type: 'DELETE_BLOG', payload:id })
+        navigate('/')                
+        }, 1000);
+      }).catch(error =>{
+        console.log(error)
+          setIsLoading(false)
+      })
+  }
+  // comment blog
+  const commentblog = (data) =>{
+     axios.put(`https://api-techstuff.onrender.com/blogs/comment`, data, config)
+      .then(res => res.data)
+      .then(data => {
+        setSuccess(data.message)
+        setIsLoading(false)
+        setTimeout(() => {
+          console.log(data)
+          // dispatch({ type: 'DELETE_BLOG', payload:id })
+        navigate('/')                
+        }, 1000);
+      }).catch(error =>{
+        console.log(error)
+          setIsLoading(false)
+      })
+  }
+  // uncomment blog
+  const uncommentblog = (data) =>{
+     axios.put(`https://api-techstuff.onrender.com/blogs/uncomment`, data, config)
+      .then(res => res.data)
+      .then(data => {
+        setSuccess(data.message)
+        setIsLoading(false)
+        setTimeout(() => {
+          console.log(data)
+          // dispatch({ type: 'DELETE_BLOG', payload:id })
+        navigate('/')                
+        }, 1000);
+      }).catch(error =>{
+        console.log(error)
+          setIsLoading(false)
+      })
+  }
 
-  return {createblog, getblog, getallblogs, getblogs, searchblogs, editblog, deleteblog, error, success, isLoading}
+  return {
+    error, 
+    success, 
+    isLoading, 
+    createblog, 
+    getblog, 
+    getallblogs, 
+    getblogs, 
+    searchblogs, 
+    editblog, 
+    deleteblog,
+    likeblog,
+    unlikeblog,
+    commentblog,
+    uncommentblog,
+   }
 }

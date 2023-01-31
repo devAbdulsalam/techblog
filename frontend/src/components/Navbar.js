@@ -22,7 +22,6 @@ const Navbar = () => {
     if(!query){
       return
     }
-    console.log(query)
     navigate(`/search/${query}`)
   }
 

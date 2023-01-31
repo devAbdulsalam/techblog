@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllBlog, singleBlog, createBlog, searchBlog, deleteBlog, updateBlog, myBlog, likeBlog, CommentsOnBlog } = require('../controllers/blogController')
+const { getAllBlog, singleBlog, createBlog, searchBlog, deleteBlog, updateBlog, myBlog, likeBlog, unlikeBlog, commentBlog, uncommentBlog } = require('../controllers/blogController')
 const requireAuth = require('../middleware/requireAuth')
 
 const router = express.Router()
@@ -26,10 +26,16 @@ router.post('/', createBlog)
 
 
 // //likes blog
-router.post('/', likeBlog)
+router.put('/like', likeBlog)
 
-// //draft blog
-router.post('/', CommentsOnBlog)
+// //unlikes blog
+router.put('/unlike', unlikeBlog)
+
+// //comment blog
+router.put('/comment', commentBlog)
+
+// //uncomment blog
+router.put('/uncomment', uncommentBlog)
 
 // //delete blog
 router.delete('/:id', deleteBlog)

@@ -23,12 +23,7 @@ export const blogsReducer = (state, action) => {
       };
     case 'SEARCH_BLOG':
       return {
-        blogs: state.blogs.filter(blog => 
-          blog.keywords.toLowerCase().includes(action.payload.toLowerCase()) ||
-          blog.title.toLowerCase().includes(action.payload.toLowerCase()) ||
-          blog.subtitle.toLowerCase().includes(action.payload.toLowerCase()) ||
-          blog.author.toLowerCase().includes(action.payload.toLowerCase())
-        ),
+        blogs: action.payload
       };
     case 'DELETE_BLOG':
       return {

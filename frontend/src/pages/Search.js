@@ -13,8 +13,9 @@ const Search = () => {
     const { searchblogs, success, error} = useBlogs()
     const { setIsLoading } = useContext(LoadingContext);
     useEffect(() => {
-        setIsLoading(false)
-        searchblogs(query)
+        setIsLoading(true)
+        const data = { query }
+        searchblogs(data)
     }, [blogs, query, searchblogs])
 
 

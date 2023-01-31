@@ -138,15 +138,16 @@ const saveDraft = async (req, res) => {
 
     res.status(200).json(blog)
 }
-// get a single blog
+// like single blog
 const likeBlog = async (req, res) => {
-    const {id} = req.params
+    const {id, userId} = req.body
     
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({ error: 'Blog not found'})
     }
 
-    const blog = await Blog.findById(id)
+    const blog = await Blog.findByIdAndUpdate(id, {$push : {likes : userId}}, 
+        {new: true})
 
     if(!blog){
         return res.status(404).json({ error: 'Blog not found'})
@@ -154,15 +155,44 @@ const likeBlog = async (req, res) => {
 
     res.status(200).json(blog)
 }
-// get a single blog
-const CommentsOnBlog = async (req, res) => {
-    const {id} = req.params
+
+// unlike single blog
+const unlikeBlog = async (req, res) => {
+    const {id, userId} = req.body
     
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({ error: 'Blog not found'})
     }
 
-    const blog = await Blog.findById(id)
+    const blog = await Blog.findByIdAndUpdate(id, {$pull : {likes : userId}}, 
+        {new: true})
+
+    res.status(200).json(blog)
+}
+// get a single blog
+const commentBlog = async (req, res) => {
+    const {userId, comment} = req.body
+    comment.postedBy = userId
+
+    const blog = await Blog.findByIdAndUpdate(id, {$push  : {comments : comment}}, 
+        {new: true})
+        .populate('comments.postedBy', _id)
+        .populate('postedBy', _id)
+
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+
+    res.status(200).json(blog)
+}
+
+const uncommentBlog = async (req, res) => {
+    const {comment} = req.body
+
+    const blog = await Blog.findByIdAndUpdate(id, {$pull  : {comments : comment._id}}, 
+        {new: true})
+        .populate('comments.postedBy', _id)
+        .populate('postedBy', _id)
 
     if(!blog){
         return res.status(404).json({ error: 'Blog not found'})
@@ -180,5 +210,7 @@ module.exports = {
     updateBlog,
     saveDraft, 
     likeBlog, 
-    CommentsOnBlog,
+    unlikeBlog, 
+    commentBlog,
+    uncommentBlog,
 }
