@@ -31,13 +31,13 @@ const blogSchema = new Schema({
         contentType: String
     },
     likes:[{
-        type : ObjectId,
+        type : String,
         ref: "User"
     }],
     comments:[{
         text: String,
         created: {type: Date, default: Date.now},
-        postedBy: {type: ObjectId, ref: "User"}
+        postedBy: {type: String, ref: "User"}
     }]
 }, {timestamps : true});
 

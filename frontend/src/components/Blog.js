@@ -66,7 +66,7 @@ const Blog = ({ blog }) => {
                     {keywords}
                 </div>
                 <div className='flex gap-2'>
-                    {likes ? <button onClick={() => handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"} `}>stars <span>1</span></button> : <button onClick={handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"}`}><ion-icon color="blue" name="star"></ion-icon></button>}
+                    {likes ? <button onClick={() => handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"} `}>stars <span>1</span></button> : <button onClick={handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"}`}><ion-icon name="star"></ion-icon></button>}
                     {comment? <button onClick={() => handleComments}>comments <span>1</span></button>: <button onClick={() => handleComments}>comments</button>}
                     <p>save</p>
                 </div>

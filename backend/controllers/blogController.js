@@ -141,10 +141,6 @@ const saveDraft = async (req, res) => {
 // like single blog
 const likeBlog = async (req, res) => {
     const {id, userId} = req.body
-    
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ error: 'Blog not found'})
-    }
 
     const blog = await Blog.findByIdAndUpdate(id, {$push : {likes : userId}}, 
         {new: true})
