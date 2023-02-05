@@ -24,7 +24,7 @@ router.post('/getprofile', getAccount)
 router.post('/signup', signinUser)
 
 // //updateProfile
-router.post('profile/update', updateProfile)
+router.put('profile/update', updateProfile)
 
 // //updateProfile
 router.post('/follow', followAccount)
