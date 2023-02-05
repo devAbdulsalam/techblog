@@ -64,8 +64,8 @@ const signinUser = async (req, res) => {
 
 // // user profile
 const updateProfile = async (req, res) => {
-  const {id, name, phone, email, address} = JSON.parse(req.body.user)
-  if(req.files){
+  const {id, name, phone, email} = JSON.parse(req.body.user)
+  if(req.files.image){
   try {
     const image = req.files.image
       const fileName =  new Date().getTime().toString() + path.extname(image.name);
@@ -85,7 +85,6 @@ const updateProfile = async (req, res) => {
         if(user){
             user.name = name || req.body.name || user.name
             user.phone = phone || req.body.phone || user.phone
-            user.address = address ||req.body.address || user.address
             user.email = email || req.body.email || user.email
         }    
          user = await user.save()
