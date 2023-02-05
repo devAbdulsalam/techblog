@@ -7,7 +7,7 @@ import Setting from './../../pages/Setting';
 
 const Profile = () => {
 const {user} = useContext(AuthContext)
-  const [profile, setProfile] = useState(true);
+  const [profile, setProfile] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editImage, setEditImage] = useState(false);
   const [setting, setSetting] = useState(false);

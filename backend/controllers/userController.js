@@ -64,8 +64,9 @@ const signinUser = async (req, res) => {
 
 // // user profile
 const updateProfile = async (req, res) => {
-  const {id, name, phone, email} = JSON.parse(req.body.user)
-  if(req.files.image){
+  const {id, name, phone, email} = req.body
+  console.log("hi there")
+  if(req.files){
   try {
     const image = req.files.image
       const fileName =  new Date().getTime().toString() + path.extname(image.name);

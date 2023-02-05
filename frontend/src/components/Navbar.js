@@ -33,9 +33,9 @@ const Navbar = () => {
           <ion-icon name="menu" size="large"></ion-icon>
         </div>
         <div className="mx-4 md:mx-4 flex justify-between space-x-4">
-          <Link to="/" className="text-xl md:text-2xl capitalize font-bold text-red-800">
+          <a href="/" className="text-xl md:text-2xl capitalize font-bold text-red-800">
             Tech<span className="text-red-600">Stuff</span>
-          </Link>
+          </a>
 
           {/* Serach option */}
           <div className="hidden max-w-62 relative md:flex items-stretch over-flow-hidden z-[10] border-gray-50 rounded transition ease-in-out focus:text-gray-700">

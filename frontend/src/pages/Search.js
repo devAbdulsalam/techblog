@@ -1,30 +1,32 @@
 import React, { useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { LoadingContext } from '../context/LoadingContext'
 import { useNavigate } from 'react-router-dom'
 import { useBlogs } from '../hooks/useBlogs'
 import { BlogContext } from '../context/BlogContext'
 import Blog from '../components/Blog'
+import Loading from '../components/Loading'
 
 const Search = () => {
     const navigate = useNavigate()
     const { query } = useParams()    
     const { blogs } = useContext(BlogContext);
-    const { searchblogs, success, error} = useBlogs()
-    const { setIsLoading } = useContext(LoadingContext);
+    const { searchblogs, success, error, isLoading} = useBlogs()
     useEffect(() => {
-        setIsLoading(true)
         const data = { query }
         searchblogs(data)
     }, [blogs, query, searchblogs])
 
 
   return (
-    <div>
+    <div className='min-h-screen w-full'>
         {success ? <div className="w-full">
             {blogs && blogs?.length >= 0 ? blogs?.map((blog) => (<Blog key={blog?._id} blog={blog} />)) : ''}
           </div> : ''}
-    {error || blogs?.length !== 0 ?
+        {isLoading ? 
+            <div className='h-full w-full'>
+            <Loading /> 
+            </div>: '' }
+    {error ?
         <div className='text-center space-y-2'>
             <h2 className='text-2xl md:text-3xl mt-10 p-2 font-semibold'>No results found</h2>
             <p className=''>Try shortening or rephrasing your search.</p>

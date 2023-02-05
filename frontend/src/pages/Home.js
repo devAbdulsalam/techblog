@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext} from 'react'
 import { BlogContext } from '../context/BlogContext'
 import LeftBar from './../components/LeftBar';
 import RightBar from './../components/RightBar';
@@ -10,7 +10,7 @@ import Loading from '../components/Loading'
 
 const Home = () => {
   const { blogs } = useContext(BlogContext);
-  const { getallblogs, isLoading, success, error} = useBlogs()
+  const { isLoading, error} = useBlogs()
    
 
     // useEffect(() => { 

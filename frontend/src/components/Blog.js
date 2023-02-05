@@ -30,14 +30,14 @@ const Blog = ({ blog }) => {
     const handleLikes = () => {
         const data = { id:_id, userId:user?.user?._id}
         if(like){
-            console.log("unlikepost")
-            console.log(data)
+            // console.log("unlikepost")
+            // console.log(data)
             unlikeblog(data)
             setLike(false)
         }
         if(!like){
-            console.log("likepost")
-            console.log(data)
+            // console.log("likepost")
+            // console.log(data)
             likeblog(data)
             setLike(true)
         }

@@ -36,7 +36,7 @@ export const useProfile = () => {
       })
   }
   // delete blog
-  const deleteAccount = (data) =>{
+  const deleteAccount = async (data) =>{
      axios.delete(`https://api-techstuff.onrender.com/profile/delete`, data, config)
       .then(res => res.data)
       .then(data => {
@@ -52,8 +52,9 @@ export const useProfile = () => {
         })
     }
     // like blog
-    const updateprofile = (data) =>{
+    const updateprofile = async (data) =>{
       setIsLoading(true)
+      console.log(data)
      axios.put(`https://api-techstuff.onrender.com/user/profile/update`, data, config)
       .then(res => res.data)
       .then(data => {
@@ -73,7 +74,7 @@ export const useProfile = () => {
   }
 
     // follow user
-  const follow = (data) =>{
+  const follow = async (data) =>{
      axios.put(`https://api-techstuff.onrender.com/profile/follow`, data, config)
       .then(res => res.data)
       .then(data => {
@@ -86,7 +87,7 @@ export const useProfile = () => {
       })
   }
   // unfollow user
-  const unfollow = (data) =>{
+  const unfollow = async (data) =>{
      axios.put(`https://api-techstuff.onrender.com/profile/unfollow`, data, config)
       .then(res => res.data)
       .then(data => {
