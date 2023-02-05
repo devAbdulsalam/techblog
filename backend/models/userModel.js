@@ -18,6 +18,18 @@ const userSchema = new Schema({
     unique: true,
     require: true,
   },
+  image: {
+    type: String,
+    require: true
+  },
+  followers: {
+    type: String,
+    require: true
+  },
+  follow: {
+    type: String,
+    require: true
+  },
   password: {
     type: String,
     require: true

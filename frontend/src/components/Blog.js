@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useBlogs } from '../hooks/useBlogs'
 import userImg from '../assests/avatar-05.png'
@@ -12,19 +12,32 @@ const Blog = ({ blog }) => {
     const { user } = useAuthContext()
     const [like, setLike] = useState(null)
     const [comments, setComments] = useState(null)
+    
+    useEffect(() => {
+      const checklikes = likes.find(like => like === user?.user?._id)
+      if(checklikes){
+        // console.log('already liked')
+        setLike(true)
+      }else{
+        // console.log('not liked')
+        setLike(false)
+      }
+
+    }, [likes, user])
+    
+
 
     const handleLikes = () => {
-        const data = { _id, user:user?.user?._id, userId}
-
+        const data = { id:_id, userId:user?.user?._id}
         if(like){
             console.log("unlikepost")
-            console.log(likes)
+            console.log(data)
             unlikeblog(data)
             setLike(false)
         }
         if(!like){
             console.log("likepost")
-            console.log(likes)
+            console.log(data)
             likeblog(data)
             setLike(true)
         }
@@ -47,7 +60,7 @@ const Blog = ({ blog }) => {
     return (
         <div key={_id} className='border-b border-gray-200 bg-white p-3 w-full my-2 rounded '>
             <div className='flex mb-2'>
-                <Link to={`/${_id}`}>
+                <Link to={`/profile/${userId}`}>
                     <img src={userImg} className="w-10 h-10 rounded-full" alt='userimage' ></img >
                 </Link>
                 <div className='ml-2'>
@@ -66,7 +79,11 @@ const Blog = ({ blog }) => {
                     {keywords}
                 </div>
                 <div className='flex gap-2'>
-                    {likes ? <button onClick={() => handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"} `}>stars <span>1</span></button> : <button onClick={handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"}`}><ion-icon name="star"></ion-icon></button>}
+                    
+                        <button onClick={handleLikes} className={`${like ? "text-yellow-500" : "text-yellow-200"} `}>
+                            <ion-icon name="star"></ion-icon>
+                            <span>{likes.length > 0 ? likes.length + 1: 0} </span>
+                        </button>
                     {comment? <button onClick={() => handleComments}>comments <span>1</span></button>: <button onClick={() => handleComments}>comments</button>}
                     <p>save</p>
                 </div>

@@ -155,14 +155,13 @@ const likeBlog = async (req, res) => {
 // unlike single blog
 const unlikeBlog = async (req, res) => {
     const {id, userId} = req.body
-    
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ error: 'Blog not found'})
-    }
 
     const blog = await Blog.findByIdAndUpdate(id, {$pull : {likes : userId}}, 
         {new: true})
 
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
     res.status(200).json(blog)
 }
 // get a single blog

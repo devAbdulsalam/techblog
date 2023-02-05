@@ -44,32 +44,27 @@ export const useBlogs = () => {
       .then(data => {
         setSuccess(data.message)
         setIsLoading(false)
-        setTimeout(() => {
-        dispatch({ type: 'ALL_BLOG', payload:data.blog })
-        navigate('/')                
-        }, 2000);
+        dispatch({ type: 'ALL_BLOG', payload:data })
       }).catch(error =>{
         console.log(error)
           setIsLoading(false)
-      })
-  }
-  const getallblogs = async () => {
-    setIsLoading(true)
-    setError(null)
+        })
+        setIsLoading(false)
+      }
 
+  const getallblogs = async () => {
     axios.get('https://api-techstuff.onrender.com/blogs/allblogs', config)
       .then(res => res.data)
       .then(data => {
         setSuccess(data.message)
+        console.log(data)
+        dispatch({ type: 'GET_BLOGS', payload:data })
         setIsLoading(false)
-        setTimeout(() => {
-        dispatch({ type: 'ALL_BLOG', payload:data.blog })
-        navigate('/')                
-        }, 2000);
       }).catch(error =>{
         console.log(error)
           setIsLoading(false)
-      })
+        })
+        setIsLoading(false)
   }
 
   const searchblogs = async (query) => {
@@ -146,11 +141,7 @@ export const useBlogs = () => {
       .then(data => {
         setSuccess(data.message)
         setIsLoading(false)
-        setTimeout(() => {
-          console.log(data)
-          // dispatch({ type: 'DELETE_BLOG', payload:id })
-        navigate('/')                
-        }, 1000);
+          dispatch({ type: 'UPDATE_BLOG', payload: data })
       }).catch(error =>{
         console.log(error)
           setIsLoading(false)
@@ -163,11 +154,7 @@ export const useBlogs = () => {
       .then(data => {
         setSuccess(data.message)
         setIsLoading(false)
-        setTimeout(() => {
-          console.log(data)
-          // dispatch({ type: 'DELETE_BLOG', payload:id })
-        navigate('/')                
-        }, 1000);
+          dispatch({ type: 'UPDATE_BLOG', payload: data })
       }).catch(error =>{
         console.log(error)
           setIsLoading(false)

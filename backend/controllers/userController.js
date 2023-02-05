@@ -32,6 +32,22 @@ const loginUser = async (req, res) => {
     }
 }
 
+// // login user
+const getAccount = async (req, res) => {
+    const { phone, password } = req.body
+    try {
+        // retrieve user
+        const user = await User.login(phone, password)
+        const blog = await Blog.find({ user_id: user._id }).sort({ createdAt: -1 })
+        // create a token
+        const token = createToken(user._id)
+
+        res.status(200).json({ user, blog, token, message: "Log in successfully" })
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+}
+
 // create User
 const signinUser = async (req, res) => {
     const { name, phone, password, email } = req.body
@@ -48,7 +64,8 @@ const signinUser = async (req, res) => {
 
 // // user profile
 const updateProfile = async (req, res) => {
-  const {name, phone, email, address} = JSON.parse(req.body.user)
+  const {id, name, phone, email, address} = JSON.parse(req.body.user)
+  if(req.files){
   try {
     const image = req.files.image
       const fileName =  new Date().getTime().toString() + path.extname(image.name);
@@ -59,18 +76,27 @@ const updateProfile = async (req, res) => {
     } catch (error) {
         res.status(404).json({error: error.message})
     }
+ }else{
+     try{
+        let user = await User.findOne({_id :id})
+        if(!user){
+            throw Error('user does not exist!!')
+        }
+        if(user){
+            user.name = name || req.body.name || user.name
+            user.phone = phone || req.body.phone || user.phone
+            user.address = address ||req.body.address || user.address
+            user.email = email || req.body.email || user.email
+        }    
+         user = await user.save()
+      res.status(200).json({user, message : "Profile updated Successfully"})
+    } catch (error) {
+        res.status(404).json({error: error.message})
+    }
+ }
+
 }
 
-// // // forget Password
-// const forgetPassword = async (req, res) => {
-//     const {email} = req.body
-//     try {
-//          const user = await User.fgtpswd(email)
-//         res.status(200).json({user})
-//         } catch (error) {
-//         res.status(404).json({error: error.message })
-//     }
-// }
 const forgetPassword = async (req, res) => {
     const {email} = req.body
     try {
@@ -149,6 +175,47 @@ const changePassword = async (req, res) => {
     }
 }
 
+// // change Password
+const followAccount = async (req, res) => {
+   const {id, userId} = req.body
+    try {
+        const blog = await Blog.findByIdAndUpdate(id, {$push : {follow : userId}}, 
+        {new: true})
+        
+        if(!blog){
+            return res.status(404).json({ error: 'Blog not found'})
+        }
+        res.status(200).json(blog)
+    } catch (error) {
+        res.status(404).json({error: error.message})
+    }
+}
+
+// // change Password
+const unfollowAccount = async (req, res) => {
+   const {id, userId} = req.body
+
+    const blog = await Blog.findByIdAndUpdate(id, {$pull : {follow : userId}}, 
+        {new: true})
+
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+    res.status(200).json(blog)
+}
+// // change Password
+const deleteAccount = async (req, res) => {
+   const {id, userId} = req.body
+
+    const blog = await Blog.findByIdAndUpdate(id, {$pull : {follow : userId}}, 
+        {new: true})
+
+    if(!blog){
+        return res.status(404).json({ error: 'Blog not found'})
+    }
+    res.status(200).json(blog)
+}
+
 module.exports = {
     signinUser,
     loginUser,
@@ -156,4 +223,8 @@ module.exports = {
     forgetPassword,
     resetPassword,
     changePassword,
+    followAccount,
+    unfollowAccount,
+    deleteAccount,
+    getAccount
 }

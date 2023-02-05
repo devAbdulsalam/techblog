@@ -43,7 +43,7 @@ const BlogProvider = ({ children }) => {
   })
 
   const [isError, setIsError] = useState(false)
-  // fetch  Blogs
+
   useEffect(() => {
     setIsLoading(true)
     const fetchBlogs = async () => {
@@ -63,7 +63,7 @@ const BlogProvider = ({ children }) => {
 
 
   return (
-    < BlogContext.Provider value={{ ...state, dispatch, isError }}>
+    < BlogContext.Provider value={{ ...state, dispatch, isError}}>
       {children}
     </ BlogContext.Provider>
   );

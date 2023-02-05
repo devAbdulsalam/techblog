@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useAuthContext } from './context/useAuthContext'
 // //pages
 import Home from './pages/Home'
@@ -7,6 +7,9 @@ import Myblogs from './pages/Myblogs'
 import SingleBlog from './pages/SingleBlog'
 import CreateBlog from './pages/CreateBlog'
 import EditBlog from './pages/EditBlog'
+// profile
+import Profile from './pages/profile/Profile';
+import Setting from './pages/Setting';
 // drafts
 import Draft from './pages/drafts/Draft'
 import EditDraft from './pages/drafts/EditDraft'
@@ -25,6 +28,7 @@ import Search from './pages/Search';
 function App() {
   const { user } = useAuthContext()
   return (
+    <BrowserRouter>
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route element={<ProtectedRoutes />}>
@@ -46,12 +50,20 @@ function App() {
             element={<CreateBlog />}
           />
           <Route
+            path="/Setting"
+            element={<Setting />}
+          />
+          <Route
             path="/draft"
             element={<Draft />}
           />
           <Route
             path="/draft/:id"
             element={<EditDraft />}
+          />
+          <Route
+            path="/profile/:id"
+            element={<Profile />}
           />
         </Route>
         <Route
@@ -85,6 +97,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
+    </BrowserRouter>
   );
 }
 
